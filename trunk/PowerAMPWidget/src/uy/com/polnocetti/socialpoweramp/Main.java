@@ -19,8 +19,8 @@ public class Main extends Activity {
 			Intent emailIntent = findTwitterClient();
 			String mensaje = String.format(getResources().getString(R.string.imlistening), ButtonWidget.mTitulo, ButtonWidget.mArtist);
 			emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, mensaje);
-			startActivity(Intent.createChooser(emailIntent, "Share music via: "));			
-		}else{
+			startActivity(Intent.createChooser(emailIntent, "Share music via: "));
+		} else {
 			Toast.makeText(this, R.string.powerAmpIsNotInstalled, Toast.LENGTH_LONG);
 		}
 		finish();
@@ -31,7 +31,7 @@ public class Main extends Activity {
 				"com.facebook.katana", "com.seesmic"};
 		Intent tweetIntent = new Intent();
 		tweetIntent.setType("text/plain");
-		
+
 		final PackageManager packageManager = getPackageManager();
 		List<ResolveInfo> list = packageManager.queryIntentActivities(tweetIntent, PackageManager.MATCH_DEFAULT_ONLY);
 
