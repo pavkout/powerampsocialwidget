@@ -11,7 +11,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
 import com.maxmpz.audioplayer.player.PowerAMPiAPI;
 
@@ -21,7 +20,8 @@ public class ButtonWidget extends AppWidgetProvider {
 	public static String ACTION_WIDGET_RECEIVER = "PowerAMPIntentReceiver";
 	private Bundle mCurrentTrack;
 	private Intent mTrackIntent;
-	static String mTitulo;
+	public static String mTitulo;
+	public static String mArtist;
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -33,18 +33,20 @@ public class ButtonWidget extends AppWidgetProvider {
 		PendingIntent actionPendingIntent = PendingIntent.getBroadcast(context, 0, active, 0);
 
 		remoteViews.setOnClickPendingIntent(R.id.button_one, actionPendingIntent);
-		registerAndLoadStatus(context);
+		register(context);
 
+		appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
+	}
+
+	private void register(Context context) {
+		registerAndLoadStatus(context);
 		PendingIntent songPendingIntent = PendingIntent.getBroadcast(context, 0, mTrackIntent, 0);
 
 		try {
 			songPendingIntent.send();
 		} catch (CanceledException e) {
-
-			e.printStackTrace();
+			Log.e(TAG, e.getStackTrace().toString());
 		}
-
-		appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
 	}
 
 	@Override
@@ -58,18 +60,21 @@ public class ButtonWidget extends AppWidgetProvider {
 		} else {
 			// check, if our Action was called
 			if (intent.getAction().equals(ACTION_WIDGET_RECEIVER)) {
-				if (ButtonWidget.mTitulo != null){
-					Toast.makeText(context, ButtonWidget.mTitulo, Toast.LENGTH_SHORT).show();
+				if (ButtonWidget.mTitulo != null) {
+					// Toast.makeText(context, ButtonWidget.mTitulo,
+					// Toast.LENGTH_SHORT).show();
 					Intent aintent = new Intent(context, Main.class);
-			        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, aintent, 0);
-			        try {
+					PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, aintent, 0);
+					try {
 						pendingIntent.send();
 					} catch (CanceledException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						Log.e(TAG, e.getStackTrace().toString());
 					}
-				}else
-					Toast.makeText(context, R.string.powerAmpIsNotRunning, Toast.LENGTH_SHORT).show();
+				} else {
+					register(context);
+					// Toast.makeText(context, R.string.powerAmpIsNotRunning,
+					// Toast.LENGTH_SHORT).show();
+				}
 			} else {
 				// do nothing
 			}
@@ -85,6 +90,7 @@ public class ButtonWidget extends AppWidgetProvider {
 				mCurrentTrack = mTrackIntent.getBundleExtra(PowerAMPiAPI.TRACK);
 				if (mCurrentTrack != null) {
 					ButtonWidget.mTitulo = mCurrentTrack.getString(PowerAMPiAPI.Track.TITLE);
+					ButtonWidget.mArtist = mCurrentTrack.getString(PowerAMPiAPI.Track.ARTIST);
 				}
 			}
 		}
