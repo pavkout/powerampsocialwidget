@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="uy.com.polnocetti.socialpoweramp" android:versionCode="1"
-	android:versionName="1.0">
+	android:versionName="1.0" android:installLocation="internalOnly">
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="10"></uses-sdk>
 	<application android:icon="@drawable/widgeticon"
-		android:label="@string/appname">
+		android:label="@string/appname" android:debuggable="true" android:description="@string/appDescription">
 
 		<!-- Broadcast Receiver that will process AppWidget updates -->
 		<receiver android:name=".ButtonWidget" android:label="@string/appname">
