@@ -3,6 +3,7 @@
 	<name>PowerAMPWidget</name>
 	<comment></comment>
 	<projects>
+		<project>poweramp_api_lib</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
