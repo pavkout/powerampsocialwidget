@@ -27,11 +27,9 @@ public class Main extends Activity {
 	}
 
 	public Intent findTwitterClient() {
-		final String[] twitterApps = {"com.twitter.android", "com.twidroid", "com.handmark.tweetcaster", "com.thedeck.android",
-				"com.facebook.katana", "com.seesmic"};
+		final String[] twitterApps = {"com.twitter.android", "com.twidroid", "com.handmark.tweetcaster", "com.thedeck.android", "com.seesmic"};
 		Intent tweetIntent = new Intent();
 		tweetIntent.setType("text/plain");
-
 		final PackageManager packageManager = getPackageManager();
 		List<ResolveInfo> list = packageManager.queryIntentActivities(tweetIntent, PackageManager.MATCH_DEFAULT_ONLY);
 
