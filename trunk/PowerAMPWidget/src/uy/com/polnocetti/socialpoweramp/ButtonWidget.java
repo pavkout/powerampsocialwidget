@@ -58,9 +58,17 @@ public class ButtonWidget extends AppWidgetProvider {
 		} else {
 			// check, if our Action was called
 			if (intent.getAction().equals(ACTION_WIDGET_RECEIVER)) {
-				if (ButtonWidget.mTitulo != null)
+				if (ButtonWidget.mTitulo != null){
 					Toast.makeText(context, ButtonWidget.mTitulo, Toast.LENGTH_SHORT).show();
-				else
+					Intent aintent = new Intent(context, Main.class);
+			        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, aintent, 0);
+			        try {
+						pendingIntent.send();
+					} catch (CanceledException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}else
 					Toast.makeText(context, R.string.powerAmpIsNotRunning, Toast.LENGTH_SHORT).show();
 			} else {
 				// do nothing
