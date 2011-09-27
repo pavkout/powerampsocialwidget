@@ -4,9 +4,11 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 public class Main extends Activity {
@@ -17,7 +19,11 @@ public class Main extends Activity {
 
 		if (appInstalledOrNot("com.maxmpz.audioplayer")) {
 			Intent emailIntent = findTwitterClient();
-			String mensaje = String.format(getResources().getString(R.string.imlistening), ButtonWidget.mTitulo, ButtonWidget.mArtist);
+			
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+	        String textoPatron = prefs.getString("pattern", "");
+			
+			String mensaje = String.format(textoPatron, ButtonWidget.mTitulo, ButtonWidget.mArtist);
 			emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, mensaje);
 			startActivity(Intent.createChooser(emailIntent, "Share music via: "));
 		} else {
