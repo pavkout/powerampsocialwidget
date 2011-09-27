@@ -25,73 +25,84 @@ public class ButtonWidget extends AppWidgetProvider {
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+		try {
+			RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.main);
 
-		RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.main);
+			Intent active = new Intent(context, ButtonWidget.class);
+			active.setAction(ACTION_WIDGET_RECEIVER);
+			PendingIntent actionPendingIntent = PendingIntent.getBroadcast(context, 0, active, 0);
 
-		Intent active = new Intent(context, ButtonWidget.class);
-		active.setAction(ACTION_WIDGET_RECEIVER);
-		PendingIntent actionPendingIntent = PendingIntent.getBroadcast(context, 0, active, 0);
+			remoteViews.setOnClickPendingIntent(R.id.button_one, actionPendingIntent);
+			register(context);
 
-		remoteViews.setOnClickPendingIntent(R.id.button_one, actionPendingIntent);
-		register(context);
-
-		appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
+			appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
+		} catch (Exception e) {
+			Log.e(TAG, e.getStackTrace().toString());
+		}
 	}
 
 	private void register(Context context) {
-		registerAndLoadStatus(context);
-		PendingIntent songPendingIntent = PendingIntent.getBroadcast(context, 0, mTrackIntent, 0);
-
 		try {
+			registerAndLoadStatus(context);
+			PendingIntent songPendingIntent = PendingIntent.getBroadcast(context, 0, mTrackIntent, 0);
 			songPendingIntent.send();
-		} catch (CanceledException e) {
+		} catch (Exception e) {
 			Log.e(TAG, e.getStackTrace().toString());
 		}
 	}
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		final String action = intent.getAction();
-		if (AppWidgetManager.ACTION_APPWIDGET_DELETED.equals(action)) {
-			final int appWidgetId = intent.getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-			if (appWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
-				this.onDeleted(context, new int[]{appWidgetId});
-			}
-		} else {
-			// check, if our Action was called
-			if (intent.getAction().equals(ACTION_WIDGET_RECEIVER)) {
-				if (ButtonWidget.mTitulo != null) {
-					// Toast.makeText(context, ButtonWidget.mTitulo,
-					// Toast.LENGTH_SHORT).show();
-					Intent aintent = new Intent(context, Main.class);
-					PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, aintent, 0);
-					try {
-						pendingIntent.send();
-					} catch (CanceledException e) {
-						Log.e(TAG, e.getStackTrace().toString());
-					}
-				} else {
-					register(context);
-					// Toast.makeText(context, R.string.powerAmpIsNotRunning,
-					// Toast.LENGTH_SHORT).show();
+		try {
+			final String action = intent.getAction();
+			if (AppWidgetManager.ACTION_APPWIDGET_DELETED.equals(action)) {
+				final int appWidgetId = intent.getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+				if (appWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
+					this.onDeleted(context, new int[]{appWidgetId});
 				}
 			} else {
-				// do nothing
+				// check, if our Action was called
+				if (intent.getAction().equals(ACTION_WIDGET_RECEIVER)) {
+					if (ButtonWidget.mTitulo != null) {
+						// Toast.makeText(context, ButtonWidget.mTitulo,
+						// Toast.LENGTH_SHORT).show();
+						Intent aintent = new Intent(context, Main.class);
+						PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, aintent, 0);
+						try {
+							pendingIntent.send();
+						} catch (CanceledException e) {
+							Log.e(TAG, e.getStackTrace().toString());
+						}
+					} else {
+						register(context);
+						// Toast.makeText(context,
+						// R.string.powerAmpIsNotRunning,
+						// Toast.LENGTH_SHORT).show();
+					}
+				} else {
+					// do nothing
+				}
+				super.onReceive(context, intent);
 			}
-			super.onReceive(context, intent);
+		} catch (Exception e) {
+			Log.e(TAG, e.getStackTrace().toString());
 		}
 	}
 	private BroadcastReceiver mTrackReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			mTrackIntent = intent;
-			mCurrentTrack = null;
-			if (mTrackIntent != null) {
-				mCurrentTrack = mTrackIntent.getBundleExtra(PowerAMPiAPI.TRACK);
-				if (mCurrentTrack != null) {
-					ButtonWidget.mTitulo = mCurrentTrack.getString(PowerAMPiAPI.Track.TITLE);
-					ButtonWidget.mArtist = mCurrentTrack.getString(PowerAMPiAPI.Track.ARTIST);
+			try {
+				mTrackIntent = intent;
+				mCurrentTrack = null;
+				if (mTrackIntent != null) {
+					mCurrentTrack = mTrackIntent.getBundleExtra(PowerAMPiAPI.TRACK);
+					if (mCurrentTrack != null) {
+						ButtonWidget.mTitulo = mCurrentTrack.getString(PowerAMPiAPI.Track.TITLE);
+						ButtonWidget.mArtist = mCurrentTrack.getString(PowerAMPiAPI.Track.ARTIST);
+					}
 				}
+			} catch (Exception e) {
+				Log.e(TAG, e.getStackTrace().toString());
 			}
 		}
 	};
