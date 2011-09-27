@@ -2,9 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="uy.com.polnocetti.socialpoweramp" android:versionCode="1"
 	android:versionName="1.0" android:installLocation="internalOnly">
-    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="10"></uses-sdk>
+	<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="10"></uses-sdk>
 	<application android:icon="@drawable/widgeticon"
-		android:label="@string/appname" android:debuggable="true" android:description="@string/appDescription">
+		android:label="@string/appname" android:debuggable="true"
+		android:description="@string/appDescription">
 
 		<!-- Broadcast Receiver that will process AppWidget updates -->
 		<receiver android:name=".ButtonWidget" android:label="@string/appname">
@@ -12,16 +13,22 @@
 				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
 				<!-- Broadcast Receiver that will also process our self created action -->
 				<action android:name="ACTION_WIDGET_RECEIVER" />
+				<action android:name="ACTION_WIDGET_ABOUT"/>
 			</intent-filter>
 			<meta-data android:name="android.appwidget.provider"
 				android:resource="@xml/powerampwidget" />
 		</receiver>
 
-		<activity android:name=".Main" android:theme="@android:style/Theme.Translucent.NoTitleBar">
-			<!--<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>-->
+		<activity android:name=".Main"
+			android:theme="@android:style/Theme.Translucent.NoTitleBar">
+			<!--<intent-filter> <action android:name="android.intent.action.MAIN" 
+				/> <category android:name="android.intent.category.LAUNCHER" /> </intent-filter> -->
+		</activity>
+
+		<activity android:name=".ButtonWidgetConfigure">
+			<intent-filter>
+				<action android:name="android.appwidget.action.ACTION_WIDGET_CONFIG" />
+			</intent-filter>
 		</activity>
 
 	</application>

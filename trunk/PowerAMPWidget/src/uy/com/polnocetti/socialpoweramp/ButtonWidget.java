@@ -18,6 +18,7 @@ public class ButtonWidget extends AppWidgetProvider {
 
 	private static final String TAG = "PowerAMP Social Widget...........................................................................Log";
 	public static String ACTION_WIDGET_RECEIVER = "PowerAMPIntentReceiver";
+	public static String ACTION_WIDGET_ABOUT = "PowerAMPIntentReceiver_About";
 	private Bundle mCurrentTrack;
 	private Intent mTrackIntent;
 	public static String mTitulo;
@@ -33,6 +34,13 @@ public class ButtonWidget extends AppWidgetProvider {
 			PendingIntent actionPendingIntent = PendingIntent.getBroadcast(context, 0, active, 0);
 
 			remoteViews.setOnClickPendingIntent(R.id.button_one, actionPendingIntent);
+
+			Intent aactive = new Intent(context, ButtonWidget.class);
+			aactive.setAction(ACTION_WIDGET_ABOUT);
+			PendingIntent aactionPendingIntent = PendingIntent.getBroadcast(context, 0, aactive, 0);
+
+			remoteViews.setOnClickPendingIntent(R.id.configbutton, aactionPendingIntent);
+
 			register(context);
 
 			appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
@@ -79,8 +87,14 @@ public class ButtonWidget extends AppWidgetProvider {
 						// R.string.powerAmpIsNotRunning,
 						// Toast.LENGTH_SHORT).show();
 					}
-				} else {
-					// do nothing
+				} else if (intent.getAction().equals(ACTION_WIDGET_ABOUT)) {
+					Intent aintent = new Intent(context, ButtonWidgetConfigure.class);
+					PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, aintent, 0);
+					try {
+						pendingIntent.send();
+					} catch (CanceledException e) {
+						Log.e(TAG, e.getStackTrace().toString());
+					}
 				}
 				super.onReceive(context, intent);
 			}
