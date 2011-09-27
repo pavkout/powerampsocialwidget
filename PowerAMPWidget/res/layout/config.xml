@@ -6,7 +6,12 @@
 		android:layout_height="wrap_content" android:inputType="textMultiLine">
 		<requestFocus></requestFocus>
 	</EditText>
-	<Button android:text="Button" android:id="@+id/okconfig"
-		android:layout_width="wrap_content" android:layout_height="wrap_content" />
+	<LinearLayout android:layout_width="match_parent"
+		android:layout_height="wrap_content" android:id="@+id/linearLayout1">
+		<Button android:id="@+id/okconfig" android:layout_height="wrap_content"
+			android:text="Confirm" android:layout_width="wrap_content"></Button>
+		<Button android:id="@+id/restore" android:layout_height="wrap_content"
+			android:text="Restore default" android:layout_width="wrap_content"></Button>
+	</LinearLayout>
 
 </LinearLayout>
