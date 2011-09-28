@@ -13,17 +13,21 @@ import android.widget.Toast;
 
 public class Main extends Activity {
 
+	SharedPreferences prefs;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		if (appInstalledOrNot("com.maxmpz.audioplayer")) {
+
+			prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+			String textoPatron = prefs.getString("pattern", "");
+
 			Intent emailIntent = findTwitterClient();
-			
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-	        String textoPatron = prefs.getString("pattern", "");
-			
-			String mensaje = textoPatron.replace("<song>", ButtonWidget.mTitulo).replace("<artist>",ButtonWidget.mArtist).replace("<artist>",ButtonWidget.mAlbum);
+
+			String mensaje = textoPatron.replace("<song>", ButtonWidget.mTitulo).replace("<artist>", ButtonWidget.mArtist)
+					.replace("<artist>", ButtonWidget.mAlbum);
 			emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, mensaje);
 			startActivity(Intent.createChooser(emailIntent, "Share music via: "));
 		} else {
@@ -33,22 +37,24 @@ public class Main extends Activity {
 	}
 
 	public Intent findTwitterClient() {
-		final String[] twitterApps = {"com.twitter.android", "com.twidroid", "com.handmark.tweetcaster", "com.thedeck.android", "com.seesmic"};
+
 		Intent tweetIntent = new Intent();
 		tweetIntent.setType("text/plain");
+
 		final PackageManager packageManager = getPackageManager();
 		List<ResolveInfo> list = packageManager.queryIntentActivities(tweetIntent, PackageManager.MATCH_DEFAULT_ONLY);
 
-		for (int i = 0; i < twitterApps.length; i++) {
-			for (ResolveInfo resolveInfo : list) {
-				String p = resolveInfo.activityInfo.packageName;
-				if (p != null && p.startsWith(twitterApps[i])) {
+		for (ResolveInfo resolveInfo : list) {
+			String p = resolveInfo.activityInfo.packageName;
+			String p1 = resolveInfo.activityInfo.name;
+			if (p.equals(prefs.getString("appselected", ""))) {
+				if (p != null && !p1.contains("Facebook")) {
 					tweetIntent.setPackage(p);
 					return tweetIntent;
 				}
 			}
 		}
-		return null;
+		return tweetIntent;
 	}
 
 	private boolean appInstalledOrNot(String uri) {
