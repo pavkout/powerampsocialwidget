@@ -23,7 +23,7 @@ public class Main extends Activity {
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 	        String textoPatron = prefs.getString("pattern", "");
 			
-			String mensaje = String.format(textoPatron, ButtonWidget.mTitulo, ButtonWidget.mArtist);
+			String mensaje = textoPatron.replace("<song>", ButtonWidget.mTitulo).replace("<artist>",ButtonWidget.mArtist).replace("<artist>",ButtonWidget.mAlbum);
 			emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, mensaje);
 			startActivity(Intent.createChooser(emailIntent, "Share music via: "));
 		} else {

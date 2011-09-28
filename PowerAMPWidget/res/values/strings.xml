@@ -3,7 +3,7 @@
     <string name="appname">PowerAMP Share</string>
     <string name="powerAmpIsNotRunning">PowerAMP is not running!</string>
     <string name="powerAmpIsNotInstalled">PowerAMP is not installed!</string>
-    <string name="imlistening">"#nowplaying ♪ %1$s - %2$s ♪ #PowerAMP"</string>
+    <string name="imlistening">"#nowplaying ♪ song - artist ♪ #PowerAMP"</string>
     <string name="appDescription">Share the music you love with the best Player available</string>
     <string name="minSDK">8</string>
     <string name="niceSDK">10</string>

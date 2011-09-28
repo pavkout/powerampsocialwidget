@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 public class ButtonWidgetConfigure extends Activity {
 
-	Button configOkButton, restoreButton;
+	Button configOkButton, restoreButton, artistBtn, albumBtn, songBtn;
 	int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
 	@Override
@@ -32,12 +32,21 @@ public class ButtonWidgetConfigure extends Activity {
 
 		restoreButton = (Button) findViewById(R.id.restore);
 		restoreButton.setOnClickListener(configRestoreButton);
+		
+		artistBtn = (Button) findViewById(R.id.btnArtist);
+		artistBtn.setOnClickListener(artistOnClickListener);
+		
+		albumBtn = (Button) findViewById(R.id.btnAlbum);
+		albumBtn.setOnClickListener(albumOnClickListener);
+		
+		songBtn = (Button) findViewById(R.id.btnSong);
+		songBtn.setOnClickListener(songOnClickListener);
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		String textoPatron = prefs.getString("pattern", "");
 
 		if (textoPatron.trim().length() == 0) {// empty
-			textoPatron = getResources().getString(R.string.imlistening);
+			textoPatron = getResources().getString(R.string.imlistening).replace("song", "<song>").replace("artist", "<artist>");
 		}
 
 		TextView text = (TextView) findViewById(R.id.pattern);
@@ -63,8 +72,8 @@ public class ButtonWidgetConfigure extends Activity {
 			TextView text = (TextView) findViewById(R.id.pattern);
 			String textoNuevo = text.getText().toString();
 
-			if (!textoNuevo.contains("%1$s") || !textoNuevo.contains("%2$s")) {				
-				Toast me = Toast.makeText(getApplicationContext(),"%1$s and %2$s are mandatory.", Toast.LENGTH_SHORT * 2);
+			if (!textoNuevo.contains("<song>") || !textoNuevo.contains("<artist>")) {				
+				Toast me = Toast.makeText(getApplicationContext(),"<song> and <artist> tags are mandatory.", Toast.LENGTH_SHORT * 2);
 				me.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL, 0,0);
 				me.show();
 			} else {
@@ -87,10 +96,35 @@ public class ButtonWidgetConfigure extends Activity {
 	private Button.OnClickListener configRestoreButton = new Button.OnClickListener() {
 
 		public void onClick(View arg0) {
-			String textoPatron = getResources().getString(R.string.imlistening);
+			String textoPatron = getResources().getString(R.string.imlistening).replace("song", "<song>").replace("artist", "<artist>");
 
 			TextView text = (TextView) findViewById(R.id.pattern);
 			text.setText(textoPatron);
 		}
 	};
+	
+	private Button.OnClickListener artistOnClickListener = new Button.OnClickListener() {
+
+		public void onClick(View arg0) {
+			TextView text = (TextView) findViewById(R.id.pattern);
+			text.setText(text.getText().toString() + " <artist>");
+		}
+	};
+	
+	private Button.OnClickListener albumOnClickListener = new Button.OnClickListener() {
+
+		public void onClick(View arg0) {
+			TextView text = (TextView) findViewById(R.id.pattern);
+			text.setText(text.getText().toString() + " <album>");
+		}
+	};
+	
+	private Button.OnClickListener songOnClickListener = new Button.OnClickListener() {
+
+		public void onClick(View arg0) {
+			TextView text = (TextView) findViewById(R.id.pattern);
+			text.setText(text.getText().toString() + " <song>");
+		}
+	};
+	
 }
