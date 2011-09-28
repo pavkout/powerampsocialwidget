@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="match_parent"
 	android:layout_height="match_parent" android:background="@drawable/background_repeat1">
-    <ImageView android:id="@+id/imageView1" android:layout_height="wrap_content" android:layout_width="wrap_content" android:src="@drawable/header"></ImageView>
+    <ImageView android:layout_height="wrap_content" android:layout_width="wrap_content" android:src="@drawable/header"></ImageView>
 	<EditText android:id="@+id/pattern" android:layout_width="match_parent"
 		android:layout_height="wrap_content" android:inputType="textMultiLine"
 		android:layout_marginLeft="8dip" android:layout_marginRight="8dip"
@@ -10,7 +10,7 @@
 		<requestFocus></requestFocus>
 	</EditText>
 	<LinearLayout android:layout_width="match_parent"
-		android:layout_height="wrap_content" android:id="@+id/linearLayout1">
+		android:layout_height="wrap_content" >
 		<Button android:id="@+id/okconfig" android:layout_height="wrap_content"
 			android:text="Confirm" android:layout_width="wrap_content"
 			android:background="@drawable/buttond"></Button>
@@ -18,7 +18,7 @@
 			android:text="Restore default" android:layout_width="wrap_content"
 			android:background="@drawable/buttond"></Button>
 	</LinearLayout>
-	<SlidingDrawer android:id="@+id/slidingDrawer1"
+	<SlidingDrawer
 		android:layout_width="fill_parent" android:layout_height="fill_parent"
 		android:handle="@+id/handle" android:content="@+id/content">
 		<ImageButton android:layout_width="wrap_content"
