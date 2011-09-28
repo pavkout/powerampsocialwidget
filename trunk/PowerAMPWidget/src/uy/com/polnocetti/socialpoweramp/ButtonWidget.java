@@ -23,6 +23,7 @@ public class ButtonWidget extends AppWidgetProvider {
 	private Intent mTrackIntent;
 	public static String mTitulo;
 	public static String mArtist;
+	public static String mAlbum;
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -113,6 +114,7 @@ public class ButtonWidget extends AppWidgetProvider {
 					if (mCurrentTrack != null) {
 						ButtonWidget.mTitulo = mCurrentTrack.getString(PowerAMPiAPI.Track.TITLE);
 						ButtonWidget.mArtist = mCurrentTrack.getString(PowerAMPiAPI.Track.ARTIST);
+						ButtonWidget.mAlbum = mCurrentTrack.getString(PowerAMPiAPI.Track.ALBUM);
 					}
 				}
 			} catch (Exception e) {
