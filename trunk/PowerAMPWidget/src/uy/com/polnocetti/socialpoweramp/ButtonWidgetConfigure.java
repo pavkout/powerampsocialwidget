@@ -7,9 +7,11 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +19,8 @@ public class ButtonWidgetConfigure extends Activity {
 
 	Button configOkButton, restoreButton, artistBtn, albumBtn, songBtn;
 	int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
-
+	private static final String TAG = "PowerAMP Social Widget...........................................................................Log";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -25,11 +28,11 @@ public class ButtonWidgetConfigure extends Activity {
 
 		setResult(RESULT_CANCELED);
 
-		setContentView(R.layout.config);
-
+		setContentView(R.layout.configure);
+				
 		configOkButton = (Button) findViewById(R.id.okconfig);
 		configOkButton.setOnClickListener(configOkButtonOnClickListener);
-
+	
 		restoreButton = (Button) findViewById(R.id.restore);
 		restoreButton.setOnClickListener(configRestoreButton);
 		
@@ -41,7 +44,7 @@ public class ButtonWidgetConfigure extends Activity {
 		
 		songBtn = (Button) findViewById(R.id.btnSong);
 		songBtn.setOnClickListener(songOnClickListener);
-
+		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		String textoPatron = prefs.getString("pattern", "");
 
@@ -49,7 +52,7 @@ public class ButtonWidgetConfigure extends Activity {
 			textoPatron = getResources().getString(R.string.imlistening).replace("song", "<song>").replace("artist", "<artist>");
 		}
 
-		TextView text = (TextView) findViewById(R.id.pattern);
+		EditText text = (EditText) findViewById(R.id.pattern);
 		text.setText(textoPatron);
 
 		Intent intent = getIntent();
