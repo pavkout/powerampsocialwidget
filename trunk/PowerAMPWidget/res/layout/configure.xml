@@ -11,16 +11,15 @@
 		<requestFocus></requestFocus>
 	</EditText>
 	<Spinner android:layout_height="wrap_content" android:id="@+id/spinner1"
-		android:layout_width="match_parent" android:background="@drawable/button"
-		android:textColor="#ffffff"></Spinner>
+		android:layout_width="match_parent" android:background="@drawable/button"></Spinner>
 	<LinearLayout android:layout_width="match_parent"
 		android:layout_height="wrap_content">
 		<Button android:id="@+id/okconfig" android:layout_height="wrap_content"
 			android:text="Confirm" android:layout_width="wrap_content"
-			android:background="@drawable/button" android:textColor="#ffffff"></Button>
+			android:background="@drawable/button"></Button>
 		<Button android:id="@+id/restore" android:layout_height="wrap_content"
 			android:text="Restore default" android:layout_width="wrap_content"
-			android:background="@drawable/button" android:textColor="#ffffff"></Button>
+			android:background="@drawable/button"></Button>
 
 	</LinearLayout>
 	<SlidingDrawer android:layout_width="fill_parent"
@@ -39,22 +38,22 @@
 				android:layout_height="wrap_content" android:orientation="horizontal">
 				<Button android:text="Artist" android:layout_height="wrap_content"
 					android:layout_width="wrap_content" android:id="@+id/btnArtist"
-					android:background="@drawable/button" android:textColor="#ffffff"></Button>
+					android:background="@drawable/button"></Button>
 				<Button android:text="Song" android:layout_height="wrap_content"
 					android:layout_width="wrap_content" android:id="@+id/btnSong"
-					android:background="@drawable/button" android:textColor="#ffffff"></Button>
+					android:background="@drawable/button"></Button>
 				<Button android:text="Album" android:layout_height="wrap_content"
 					android:layout_width="wrap_content" android:id="@+id/btnAlbum"
-					android:background="@drawable/button" android:textColor="#ffffff"></Button>
+					android:background="@drawable/button"></Button>
 			</LinearLayout>
 			<LinearLayout android:layout_width="fill_parent"
 				android:layout_height="wrap_content" android:orientation="horizontal">
 				<Button android:text="#PowerAMP" android:layout_height="wrap_content"
 					android:layout_width="wrap_content" android:id="@+id/btnPoweramptag"
-					android:background="@drawable/button" android:textColor="#ffffff"></Button>
+					android:background="@drawable/button"></Button>
 				<Button android:text="#nowlistening" android:layout_height="wrap_content"
 					android:layout_width="wrap_content" android:id="@+id/btnnowlistening"
-					android:background="@drawable/button" android:textColor="#ffffff"></Button>
+					android:background="@drawable/button"></Button>
 			</LinearLayout>
 		</LinearLayout>
 	</SlidingDrawer>
