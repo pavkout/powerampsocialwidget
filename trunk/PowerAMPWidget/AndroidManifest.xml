@@ -25,7 +25,7 @@
 				/> <category android:name="android.intent.category.LAUNCHER" /> </intent-filter> -->
 		</activity>
 
-		<activity android:name=".ButtonWidgetConfigure">
+		<activity android:name=".ButtonWidgetConfigure" android:theme="@android:style/Theme.NoTitleBar">
 			<intent-filter>
 				<action android:name="android.appwidget.action.ACTION_WIDGET_CONFIG" />
 			</intent-filter>
