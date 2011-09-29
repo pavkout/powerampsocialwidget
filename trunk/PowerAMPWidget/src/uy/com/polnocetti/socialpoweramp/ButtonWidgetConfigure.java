@@ -44,71 +44,74 @@ public class ButtonWidgetConfigure extends Activity {
 
 		setResult(RESULT_CANCELED);
 
-		setContentView(R.layout.configure);
+		if (appInstalledOrNot("com.maxmpz.audioplayer")) {
 
-		configOkButton = (Button) findViewById(R.id.okconfig);
-		configOkButton.setOnClickListener(configOkButtonOnClickListener);
+			setContentView(R.layout.configure);
 
-		restoreButton = (Button) findViewById(R.id.restore);
-		restoreButton.setOnClickListener(configRestoreButton);
+			configOkButton = (Button) findViewById(R.id.okconfig);
+			configOkButton.setOnClickListener(configOkButtonOnClickListener);
 
-		artistBtn = (Button) findViewById(R.id.btnArtist);
-		artistBtn.setOnClickListener(artistOnClickListener);
+			restoreButton = (Button) findViewById(R.id.restore);
+			restoreButton.setOnClickListener(configRestoreButton);
 
-		albumBtn = (Button) findViewById(R.id.btnAlbum);
-		albumBtn.setOnClickListener(albumOnClickListener);
+			artistBtn = (Button) findViewById(R.id.btnArtist);
+			artistBtn.setOnClickListener(artistOnClickListener);
 
-		songBtn = (Button) findViewById(R.id.btnSong);
-		songBtn.setOnClickListener(songOnClickListener);
+			albumBtn = (Button) findViewById(R.id.btnAlbum);
+			albumBtn.setOnClickListener(albumOnClickListener);
 
-		hashnow = (Button) findViewById(R.id.btnnowlistening);
-		hashnow.setOnClickListener(nowOnClickListener);
+			songBtn = (Button) findViewById(R.id.btnSong);
+			songBtn.setOnClickListener(songOnClickListener);
 
-		hashPA = (Button) findViewById(R.id.btnPoweramptag);
-		hashPA.setOnClickListener(paOnClickListener);
+			hashnow = (Button) findViewById(R.id.btnnowlistening);
+			hashnow.setOnClickListener(nowOnClickListener);
 
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-		String textoPatron = prefs.getString("pattern", "");
-		String appSel = prefs.getString("appselected", "");
+			hashPA = (Button) findViewById(R.id.btnPoweramptag);
+			hashPA.setOnClickListener(paOnClickListener);
 
-		if (textoPatron.trim().length() == 0) {// empty
-			textoPatron = getResources().getString(R.string.imlistening).replace("song", "<song>").replace("artist", "<artist>");
-		}
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+			String textoPatron = prefs.getString("pattern", "");
+			String appSel = prefs.getString("appselected", "");
 
-		EditText text = (EditText) findViewById(R.id.pattern);
-		text.setText(textoPatron);
-
-		int selected = 0;
-		int count = 0;
-
-		ArrayList<String> spinnerArray = new ArrayList<String>();
-		map = new HashMap<String, String>();
-
-		for (int i = 0; i < apps.length; i++) {
-			if (appInstalledOrNot(apps[i][1])) {
-				Log.i(TAG, ((Integer) count).toString());
-				map.put(apps[i][0], apps[i][1]);
-				spinnerArray.add(apps[i][0]);
-				if (!appSel.trim().equals("") && apps[i][1].equals(appSel)) {
-					selected = count;
-				}
-				count++;
+			if (textoPatron.trim().length() == 0) {// empty
+				textoPatron = getResources().getString(R.string.imlistening).replace("song", "<song>").replace("artist", "<artist>");
 			}
-		}
 
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, spinnerArray);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			EditText text = (EditText) findViewById(R.id.pattern);
+			text.setText(textoPatron);
 
-		spinnerApp = (Spinner) findViewById(R.id.spinner1);
-		spinnerApp.setAdapter(adapter);
-		spinnerApp.setOnItemSelectedListener(new MyOnItemSelectedListener());
+			int selected = 0;
+			int count = 0;
 
-		spinnerApp.setSelection(selected);
+			ArrayList<String> spinnerArray = new ArrayList<String>();
+			map = new HashMap<String, String>();
 
-		Intent intent = getIntent();
-		Bundle extras = intent.getExtras();
-		if (extras != null) {
-			mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+			for (int i = 0; i < apps.length; i++) {
+				if (appInstalledOrNot(apps[i][1])) {
+					Log.i(TAG, ((Integer) count).toString());
+					map.put(apps[i][0], apps[i][1]);
+					spinnerArray.add(apps[i][0]);
+					if (!appSel.trim().equals("") && apps[i][1].equals(appSel)) {
+						selected = count;
+					}
+					count++;
+				}
+			}
+
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, spinnerArray);
+			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+			spinnerApp = (Spinner) findViewById(R.id.spinner1);
+			spinnerApp.setAdapter(adapter);
+			spinnerApp.setOnItemSelectedListener(new MyOnItemSelectedListener());
+
+			spinnerApp.setSelection(selected);
+
+			Intent intent = getIntent();
+			Bundle extras = intent.getExtras();
+			if (extras != null) {
+				mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+			}
 		}
 
 		/*
@@ -116,6 +119,11 @@ public class ButtonWidgetConfigure extends Activity {
 		 * (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) { //
 		 * finish(); }
 		 */
+		
+		Toast me = Toast.makeText(getApplicationContext(), "PowerAMP is not installed.", Toast.LENGTH_SHORT * 2);
+		me.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+		me.show();
+		
 	}
 
 	private Button.OnClickListener configOkButtonOnClickListener = new Button.OnClickListener() {
@@ -188,7 +196,7 @@ public class ButtonWidgetConfigure extends Activity {
 			text.setText(text.getText().toString() + " <song>");
 		}
 	};
-	
+
 	private Button.OnClickListener nowOnClickListener = new Button.OnClickListener() {
 
 		public void onClick(View arg0) {
@@ -196,7 +204,7 @@ public class ButtonWidgetConfigure extends Activity {
 			text.setText(text.getText().toString() + " #nowlistening");
 		}
 	};
-	
+
 	private Button.OnClickListener paOnClickListener = new Button.OnClickListener() {
 
 		public void onClick(View arg0) {
