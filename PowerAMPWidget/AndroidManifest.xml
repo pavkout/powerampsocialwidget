@@ -4,7 +4,7 @@
 	android:versionName="1.0" android:installLocation="internalOnly">
 	<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="10"></uses-sdk>
 	<application android:icon="@drawable/widgeticon"
-		android:label="@string/appname" android:debuggable="true"
+		android:label="@string/appname"
 		android:description="@string/appDescription">
 
 		<!-- Broadcast Receiver that will process AppWidget updates -->
