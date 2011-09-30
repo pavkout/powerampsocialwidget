@@ -112,18 +112,11 @@ public class ButtonWidgetConfigure extends Activity {
 			if (extras != null) {
 				mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
 			}
+		} else {
+			Toast me = Toast.makeText(getApplicationContext(), "PowerAMP is not installed.", Toast.LENGTH_SHORT * 2);
+			me.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+			me.show();
 		}
-
-		/*
-		 * //If they gave us an intent without the widget id, just bail. if
-		 * (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) { //
-		 * finish(); }
-		 */
-		
-		Toast me = Toast.makeText(getApplicationContext(), "PowerAMP is not installed.", Toast.LENGTH_SHORT * 2);
-		me.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
-		me.show();
-		
 	}
 
 	private Button.OnClickListener configOkButtonOnClickListener = new Button.OnClickListener() {
