@@ -31,7 +31,7 @@ public class ButtonWidgetConfigure extends Activity {
 	String selectedApp;
 
 	private String[][] apps = {{"Official", "com.twitter.android"}, {"Twicca", "jp.r246.twicca"}, {"Übersocial", "com.twidroid"},
-			{"Tweetcaster", "com.handmark.tweetcaster"}, {"Tweetdeck", "com.thedeck.android"}, {"Seesmic", "com.seesmic"},
+			{"Tweetcaster", "com.handmark.tweetcaster"}, {"Tweetdeck", "com.thedeck.android.app"}, {"Seesmic", "com.seesmic"},
 			{"Plume", "com.thedeck.android"}};
 
 	int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;

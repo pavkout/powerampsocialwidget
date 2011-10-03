@@ -24,12 +24,12 @@ public class Main extends Activity {
 			prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 			String textoPatron = prefs.getString("pattern", "");
 
-			Intent emailIntent = findTwitterClient();
+			Intent tweetlIntent = findTwitterClient();
 
 			String mensaje = textoPatron.replace("<song>", ButtonWidget.mTitulo).replace("<artist>", ButtonWidget.mArtist)
 					.replace("<artist>", ButtonWidget.mAlbum);
-			emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, mensaje);
-			startActivity(Intent.createChooser(emailIntent, "Share music via: "));
+			tweetlIntent.putExtra(android.content.Intent.EXTRA_TEXT, mensaje);
+			startActivity(Intent.createChooser(tweetlIntent, "Share music via: "));
 		} else {
 			Toast.makeText(this, R.string.powerAmpIsNotInstalled, Toast.LENGTH_LONG);
 		}
@@ -38,7 +38,7 @@ public class Main extends Activity {
 
 	public Intent findTwitterClient() {
 
-		Intent tweetIntent = new Intent();
+		Intent tweetIntent = new Intent(Intent.ACTION_SEND);
 		tweetIntent.setType("text/plain");
 
 		final PackageManager packageManager = getPackageManager();
