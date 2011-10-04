@@ -117,6 +117,7 @@ public class ButtonWidgetConfigure extends Activity {
 			Toast me = Toast.makeText(getApplicationContext(), "PowerAMP is not installed.", Toast.LENGTH_SHORT * 2);
 			me.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
 			me.show();
+      finish();
 		}
 	}
 
