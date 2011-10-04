@@ -47,7 +47,7 @@ public class Main extends Activity {
 		for (ResolveInfo resolveInfo : list) {
 			String p = resolveInfo.activityInfo.packageName;
 			String p1 = resolveInfo.activityInfo.name;
-			if (p.equals(prefs.getString("appselected", ""))) {
+			if (p.contains(prefs.getString("appselected", ""))) {
 				if (p != null && !p1.contains("Facebook")) {
 					tweetIntent.setPackage(p);
 					return tweetIntent;
