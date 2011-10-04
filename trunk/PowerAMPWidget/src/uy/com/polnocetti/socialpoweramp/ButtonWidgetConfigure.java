@@ -30,12 +30,20 @@ public class ButtonWidgetConfigure extends Activity {
 	HashMap<String, String> map;
 	String selectedApp;
 
-	private String[][] apps = {{"Official", "com.twitter.android"}, {"Twicca", "jp.r246.twicca"}, {"Ãœbersocial", "com.twidroid"},
-			{"Tweetcaster", "com.handmark.tweetcaster"}, {"Tweetdeck", "com.thedeck.android.app"}, {"Seesmic", "com.seesmic"},
-			{"Plume", "com.levelup.touiteur"}, {"Plume", "com.levelup.touiteurpremium"}, {"Tweettopics", "com.javielinux.tweettopics.lite"}, 
-         {"Tweettopics", "com.javielinux.tweettopics.pro"}};
-          
-  int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
+	private String[][] apps = {
+			{"Official", 	"com.twitter.android"}, 
+			{"Twicca", 		"jp.r246.twicca"}, 
+			{"Übersocial", 	"com.twidroid"},
+			{"Tweetcaster", "com.handmark.tweetcaster"},
+			{"Tweetdeck", 	"com.thedeck.android.app"}, 
+			{"Seesmic", 	"com.seesmic"},
+			{"Plume", 		"com.levelup.touiteur"},
+			{"Plume", 		"com.levelup.touiteurpremium"}, 
+			{"Tweettopics", "com.javielinux.tweettopics.lite"},
+			{"Tweettopics", "com.javielinux.tweettopics.pro"}, 
+			{"HTC Peep", 	"com.htc.htctwitter"}};
+
+	int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 	private static final String TAG = "PowerAMP Social Widget...........................................................................Log";
 
 	@Override
@@ -117,7 +125,7 @@ public class ButtonWidgetConfigure extends Activity {
 			Toast me = Toast.makeText(getApplicationContext(), "PowerAMP is not installed.", Toast.LENGTH_SHORT * 2);
 			me.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
 			me.show();
-      finish();
+			finish();
 		}
 	}
 
