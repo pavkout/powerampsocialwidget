@@ -16,7 +16,7 @@ import com.maxmpz.audioplayer.player.PowerAMPiAPI;
 
 public class ButtonWidget extends AppWidgetProvider {
 
-	private static final String TAG = "PowerAMP Social Widget...........................................................................Log";
+	public static final String TAG = "PowerAMP Social Widget................................................Log";
 	public static String ACTION_WIDGET_RECEIVER = "PowerAMPIntentReceiver";
 	public static String ACTION_WIDGET_ABOUT = "PowerAMPIntentReceiver_About";
 	private Bundle mCurrentTrack;
