@@ -2,23 +2,29 @@ package uy.com.polnocetti.socialpoweramp;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,21 +36,17 @@ public class ButtonWidgetConfigure extends Activity {
 	HashMap<String, String> map;
 	String selectedApp;
 
-	private String[][] apps = {
-			{"Official", 	"com.twitter.android"}, 
-			{"Twicca", 		"jp.r246.twicca"}, 
-			{"Übersocial", 	"com.twidroid"},
-			{"Tweetcaster", "com.handmark.tweetcaster"},
-			{"Tweetdeck", 	"com.thedeck.android.app"}, 
-			{"Seesmic", 	"com.seesmic"},
-			{"Plume", 		"com.levelup.touiteur"},
-			{"Plume", 		"com.levelup.touiteurpremium"}, 
-			{"Tweettopics", "com.javielinux.tweettopics.lite"},
-			{"Tweettopics", "com.javielinux.tweettopics.pro"}, 
-			{"HTC Peep", 	"com.htc.htctwitter"}};
+	private String[][] apps = {{"Official", "com.twitter.android"}, {"Twicca", "jp.r246.twicca"}, {"Übersocial", "com.twidroid"},
+			{"Tweetcaster", "com.handmark.tweetcaster"}, {"Tweetdeck", "com.thedeck.android.app"}, {"Seesmic", "com.seesmic"},
+			{"Plume", "com.levelup.touiteur"}, {"Plume", "com.levelup.touiteurpremium"}, {"Tweettopics", "com.javielinux.tweettopics.lite"},
+			{"Tweettopics", "com.javielinux.tweettopics.pro"}, {"HTC Peep", "com.htc.htctwitter"}};
+
+	private ArrayList<String> installedApps = new ArrayList<String>();
+	private ArrayList<String> installedPack = new ArrayList<String>();
+
+	private Drawable[] icons;
 
 	int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
-	private static final String TAG = "PowerAMP Social Widget...........................................................................Log";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -86,32 +88,26 @@ public class ButtonWidgetConfigure extends Activity {
 				textoPatron = getResources().getString(R.string.imlistening).replace("song", "<song>").replace("artist", "<artist>");
 			}
 
+			getInstalledApps();
+
 			EditText text = (EditText) findViewById(R.id.pattern);
 			text.setText(textoPatron);
 
 			int selected = 0;
-			int count = 0;
-
-			ArrayList<String> spinnerArray = new ArrayList<String>();
+			
+			String[] spinnerArray = new String[installedApps.size()];
 			map = new HashMap<String, String>();
 
-			for (int i = 0; i < apps.length; i++) {
-				if (appInstalledOrNot(apps[i][1])) {
-					Log.i(TAG, ((Integer) count).toString());
-					map.put(apps[i][0], apps[i][1]);
-					spinnerArray.add(apps[i][0]);
-					if (!appSel.trim().equals("") && apps[i][1].equals(appSel)) {
-						selected = count;
-					}
-					count++;
+			for (String app : installedApps) {
+				map.put(installedPack.get(installedApps.indexOf(app)), app);
+				spinnerArray[installedApps.indexOf(app)] = installedPack.get(installedApps.indexOf(app));
+				if (!appSel.trim().equals("") && app.equals(appSel)) {
+					selected = installedApps.indexOf(app);
 				}
 			}
 
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, spinnerArray);
-			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
 			spinnerApp = (Spinner) findViewById(R.id.spinner1);
-			spinnerApp.setAdapter(adapter);
+			spinnerApp.setAdapter(new MyCustomAdapter(ButtonWidgetConfigure.this, R.layout.row, spinnerArray));
 			spinnerApp.setOnItemSelectedListener(new MyOnItemSelectedListener());
 
 			spinnerApp.setSelection(selected);
@@ -237,6 +233,60 @@ public class ButtonWidgetConfigure extends Activity {
 			app_installed = false;
 		}
 		return app_installed;
+	}
+
+	void getInstalledApps() {
+
+		for (int i = 0; i < apps.length; i++) {
+			if (appInstalledOrNot(apps[i][1])) {
+				installedApps.add(apps[i][1]);
+				installedPack.add(apps[i][0]);
+			}
+		}
+
+		icons = new Drawable[installedApps.size()];
+		for (String app : installedApps) {
+			List<PackageInfo> packs = getPackageManager().getInstalledPackages(0);
+			for (int j = 0; j < packs.size(); j++) {
+				PackageInfo p = packs.get(j);
+				String pname = p.packageName;
+				if (app.contains(pname)) {
+					icons[installedApps.indexOf(app)] = p.applicationInfo.loadIcon(getPackageManager());
+					break;
+				}
+			}
+		}
+	}
+
+	public class MyCustomAdapter extends ArrayAdapter<String> {
+
+		public MyCustomAdapter(Context context, int textViewResourceId, String[] objects) {
+			super(context, textViewResourceId, objects);
+		}
+
+		@Override
+		public View getDropDownView(int position, View convertView, ViewGroup parent) {
+			return getCustomView(position, convertView, parent);
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			return getCustomView(position, convertView, parent);
+		}
+
+		public View getCustomView(int position, View convertView, ViewGroup parent) {
+
+			LayoutInflater inflater = getLayoutInflater();
+			View row = inflater.inflate(R.layout.row, parent, false);
+			TextView label = (TextView) row.findViewById(R.id.appName);
+
+			label.setText(installedPack.get(position));
+
+			ImageView icon = (ImageView) row.findViewById(R.id.icon);
+			icon.setImageDrawable(icons[position]);
+
+			return row;
+		}
 	}
 
 }
