@@ -1,1 +1,4 @@
 lia.123456
+
+com.javielinux.tweettopics.lite
+com.javielinux.tweettopics.pro
