@@ -37,8 +37,9 @@ public class ButtonWidgetConfigure extends Activity {
 	String selectedApp;
 
 	private String[][] apps = {{"Official", "com.twitter.android"}, {"Twicca", "jp.r246.twicca"}, {"Übersocial", "com.twidroid"},
-			{"Tweetcaster", "com.handmark.tweetcaster"}, {"Tweetdeck", "com.thedeck.android.app"}, {"Seesmic", "com.seesmic"},
-			{"Plume", "com.levelup.touiteur"}, {"Plume", "com.levelup.touiteurpremium"}, {"Tweettopics", "com.javielinux.tweettopics.lite"},
+			{"Tweetcaster", "com.handmark.tweetcaster"}, {"Tweetcaster", "com.handmark.tweetcaster.premium"},
+			{"Tweetdeck", "com.thedeck.android.app"}, {"Seesmic", "com.seesmic"}, {"Plume", "com.levelup.touiteur"},
+			{"Plume", "com.levelup.touiteurpremium"}, {"Tweettopics", "com.javielinux.tweettopics.lite"},
 			{"Tweettopics", "com.javielinux.tweettopics.pro"}, {"HTC Peep", "com.htc.htctwitter"}};
 
 	private ArrayList<String> installedApps = new ArrayList<String>();
@@ -94,7 +95,7 @@ public class ButtonWidgetConfigure extends Activity {
 			text.setText(textoPatron);
 
 			int selected = 0;
-			
+
 			String[] spinnerArray = new String[installedApps.size()];
 			map = new HashMap<String, String>();
 
