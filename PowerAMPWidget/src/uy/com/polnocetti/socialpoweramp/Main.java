@@ -27,7 +27,7 @@ public class Main extends Activity {
 			Intent tweetlIntent = findTwitterClient();
 
 			String mensaje = textoPatron.replace("<song>", ButtonWidget.mTitulo).replace("<artist>", ButtonWidget.mArtist)
-					.replace("<artist>", ButtonWidget.mAlbum);
+					.replace("<album>", ButtonWidget.mAlbum);
 			tweetlIntent.putExtra(android.content.Intent.EXTRA_TEXT, mensaje);
 			startActivity(Intent.createChooser(tweetlIntent, "Share music via: "));
 		} else {

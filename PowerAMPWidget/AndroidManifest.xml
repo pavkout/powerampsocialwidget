@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="uy.com.polnocetti.socialpoweramp" android:installLocation="internalOnly" android:versionCode="5" android:versionName="1.4">
+	package="uy.com.polnocetti.socialpoweramp" android:installLocation="internalOnly" android:versionName="1.5" android:versionCode="6">
 	<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="10"></uses-sdk>
 	<application android:icon="@drawable/widgeticon"
 		android:label="@string/appname"
