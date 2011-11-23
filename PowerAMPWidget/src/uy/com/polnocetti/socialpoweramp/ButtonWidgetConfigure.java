@@ -55,77 +55,82 @@ public class ButtonWidgetConfigure extends Activity {
 		super.onCreate(savedInstanceState);
 
 		setResult(RESULT_CANCELED);
+		getInstalledApps();
 
-		if (appInstalledOrNot("com.maxmpz.audioplayer")) {
-
-			setContentView(R.layout.configure);
-
-			configOkButton = (Button) findViewById(R.id.okconfig);
-			configOkButton.setOnClickListener(configOkButtonOnClickListener);
-
-			restoreButton = (Button) findViewById(R.id.restore);
-			restoreButton.setOnClickListener(configRestoreButton);
-
-			artistBtn = (Button) findViewById(R.id.btnArtist);
-			artistBtn.setOnClickListener(artistOnClickListener);
-
-			albumBtn = (Button) findViewById(R.id.btnAlbum);
-			albumBtn.setOnClickListener(albumOnClickListener);
-
-			songBtn = (Button) findViewById(R.id.btnSong);
-			songBtn.setOnClickListener(songOnClickListener);
-
-			hashnow = (Button) findViewById(R.id.btnnowlistening);
-			hashnow.setOnClickListener(nowOnClickListener);
-
-			hashPA = (Button) findViewById(R.id.btnPoweramptag);
-			hashPA.setOnClickListener(paOnClickListener);
-
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-			String textoPatron = prefs.getString("pattern", "");
-			String appSel = prefs.getString("appselected", "");
-
-			if (textoPatron.trim().length() == 0) {// empty
-				textoPatron = getResources().getString(R.string.imlistening).replace("song", "<song>").replace("artist", "<artist>");
-			}
-
-			getInstalledApps();
-
-			EditText text = (EditText) findViewById(R.id.pattern);
-			text.setText(textoPatron);
-
-			int selected = 0;
-
-			String[] spinnerArray = new String[installedApps.size()];
-			map = new HashMap<String, String>();
-
-			for (String app : installedApps) {
-				map.put(installedPack.get(installedApps.indexOf(app)), app);
-				spinnerArray[installedApps.indexOf(app)] = installedPack.get(installedApps.indexOf(app));
-				if (!appSel.trim().equals("") && app.equals(appSel)) {
-					selected = installedApps.indexOf(app);
-				}
-			}
-
-			spinnerApp = (Spinner) findViewById(R.id.spinner1);
-			spinnerApp.setAdapter(new MyCustomAdapter(ButtonWidgetConfigure.this, R.layout.row, spinnerArray));
-			spinnerApp.setOnItemSelectedListener(new MyOnItemSelectedListener());
-
-			spinnerApp.setSelection(selected);
-
-			Intent intent = getIntent();
-			Bundle extras = intent.getExtras();
-			if (extras != null) {
-				mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-			}
-		} else {
-			Toast me = Toast.makeText(getApplicationContext(), "PowerAMP is not installed.", Toast.LENGTH_SHORT * 2);
+		if (installedApps.size() == 0) {
+			Toast me = Toast.makeText(getApplicationContext(), "No supported twitter client installed.", Toast.LENGTH_SHORT * 2);
 			me.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
 			me.show();
 			finish();
+		} else {
+			if (appInstalledOrNot("com.maxmpz.audioplayer")) {
+
+				setContentView(R.layout.configure);
+
+				configOkButton = (Button) findViewById(R.id.okconfig);
+				configOkButton.setOnClickListener(configOkButtonOnClickListener);
+
+				restoreButton = (Button) findViewById(R.id.restore);
+				restoreButton.setOnClickListener(configRestoreButton);
+
+				artistBtn = (Button) findViewById(R.id.btnArtist);
+				artistBtn.setOnClickListener(artistOnClickListener);
+
+				albumBtn = (Button) findViewById(R.id.btnAlbum);
+				albumBtn.setOnClickListener(albumOnClickListener);
+
+				songBtn = (Button) findViewById(R.id.btnSong);
+				songBtn.setOnClickListener(songOnClickListener);
+
+				hashnow = (Button) findViewById(R.id.btnnowlistening);
+				hashnow.setOnClickListener(nowOnClickListener);
+
+				hashPA = (Button) findViewById(R.id.btnPoweramptag);
+				hashPA.setOnClickListener(paOnClickListener);
+
+				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+				String textoPatron = prefs.getString("pattern", "");
+				String appSel = prefs.getString("appselected", "");
+
+				if (textoPatron.trim().length() == 0) {// empty
+					textoPatron = getResources().getString(R.string.imlistening).replace("song", "<song>").replace("artist", "<artist>");
+				}
+
+				EditText text = (EditText) findViewById(R.id.pattern);
+				text.setText(textoPatron);
+
+				int selected = 0;
+
+				String[] spinnerArray = new String[installedApps.size()];
+				map = new HashMap<String, String>();
+
+				for (String app : installedApps) {
+					map.put(installedPack.get(installedApps.indexOf(app)), app);
+					spinnerArray[installedApps.indexOf(app)] = installedPack.get(installedApps.indexOf(app));
+					if (!appSel.trim().equals("") && app.equals(appSel)) {
+						selected = installedApps.indexOf(app);
+					}
+				}
+
+				spinnerApp = (Spinner) findViewById(R.id.spinner1);
+				spinnerApp.setAdapter(new MyCustomAdapter(ButtonWidgetConfigure.this, R.layout.row, spinnerArray));
+				spinnerApp.setOnItemSelectedListener(new MyOnItemSelectedListener());
+
+				spinnerApp.setSelection(selected);
+
+				Intent intent = getIntent();
+				Bundle extras = intent.getExtras();
+				if (extras != null) {
+					mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+				}
+			} else {
+				Toast me = Toast.makeText(getApplicationContext(), "PowerAMP is not installed.", Toast.LENGTH_SHORT * 2);
+				me.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+				me.show();
+				finish();
+			}
 		}
 	}
-
 	private Button.OnClickListener configOkButtonOnClickListener = new Button.OnClickListener() {
 
 		public void onClick(View arg0) {
@@ -133,7 +138,7 @@ public class ButtonWidgetConfigure extends Activity {
 			TextView text = (TextView) findViewById(R.id.pattern);
 			String textoNuevo = text.getText().toString();
 
-			if (selectedApp.trim().length() == 0) {
+			if ((selectedApp == null) || (selectedApp != null && selectedApp.trim().length() == 0)) {
 				Toast me = Toast.makeText(getApplicationContext(), "No twitter client selected.", Toast.LENGTH_SHORT * 2);
 				me.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
 				me.show();
