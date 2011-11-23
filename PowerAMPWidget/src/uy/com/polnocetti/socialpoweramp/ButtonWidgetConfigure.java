@@ -19,6 +19,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -31,7 +32,7 @@ import android.widget.Toast;
 
 public class ButtonWidgetConfigure extends Activity {
 
-	Button configOkButton, restoreButton, artistBtn, albumBtn, songBtn, hashPA, hashnow;
+	Button configOkButton, restoreButton, artistBtn, albumBtn, songBtn, hashPA, hashnow, hashShuffling, hashplay;
 	Spinner spinnerApp;
 	HashMap<String, String> map;
 	String selectedApp;
@@ -88,6 +89,12 @@ public class ButtonWidgetConfigure extends Activity {
 				hashPA = (Button) findViewById(R.id.btnPoweramptag);
 				hashPA.setOnClickListener(paOnClickListener);
 
+				hashplay = (Button) findViewById(R.id.btnplaying);
+				hashplay.setOnClickListener(playingOnClickListener);
+
+				hashShuffling = (Button) findViewById(R.id.btnshuffling);
+				hashShuffling.setOnClickListener(shufflingOnClickListener);
+
 				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 				String textoPatron = prefs.getString("pattern", "");
 				String appSel = prefs.getString("appselected", "");
@@ -130,6 +137,7 @@ public class ButtonWidgetConfigure extends Activity {
 				finish();
 			}
 		}
+		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 	}
 	private Button.OnClickListener configOkButtonOnClickListener = new Button.OnClickListener() {
 
@@ -177,12 +185,19 @@ public class ButtonWidgetConfigure extends Activity {
 			text.setText(textoPatron);
 		}
 	};
+	
+	private String FormatearTexto(TextView text, String textoNuevo) {
+		int at = text.getSelectionStart();
+		String pre = text.getText().toString().substring(0, at);
+		String post = text.getText().toString().substring(at, text.getText().toString().length());
+		return pre + textoNuevo + post;
+	}
 
 	private Button.OnClickListener artistOnClickListener = new Button.OnClickListener() {
 
 		public void onClick(View arg0) {
 			TextView text = (TextView) findViewById(R.id.pattern);
-			text.setText(text.getText().toString() + " <artist>");
+			text.setText(FormatearTexto(text," <artist>"));
 		}
 	};
 
@@ -190,7 +205,7 @@ public class ButtonWidgetConfigure extends Activity {
 
 		public void onClick(View arg0) {
 			TextView text = (TextView) findViewById(R.id.pattern);
-			text.setText(text.getText().toString() + " <album>");
+			text.setText(FormatearTexto(text," <album>"));
 		}
 	};
 
@@ -198,7 +213,7 @@ public class ButtonWidgetConfigure extends Activity {
 
 		public void onClick(View arg0) {
 			TextView text = (TextView) findViewById(R.id.pattern);
-			text.setText(text.getText().toString() + " <song>");
+			text.setText(FormatearTexto(text," <song>"));
 		}
 	};
 
@@ -206,7 +221,7 @@ public class ButtonWidgetConfigure extends Activity {
 
 		public void onClick(View arg0) {
 			TextView text = (TextView) findViewById(R.id.pattern);
-			text.setText(text.getText().toString() + " #nowlistening");
+			text.setText(FormatearTexto(text," #nowlistening"));
 		}
 	};
 
@@ -214,7 +229,23 @@ public class ButtonWidgetConfigure extends Activity {
 
 		public void onClick(View arg0) {
 			TextView text = (TextView) findViewById(R.id.pattern);
-			text.setText(text.getText().toString() + " #PowerAMP");
+			text.setText(FormatearTexto(text," #PowerAMP"));
+		}
+	};
+
+	private Button.OnClickListener shufflingOnClickListener = new Button.OnClickListener() {
+
+		public void onClick(View arg0) {
+			TextView text = (TextView) findViewById(R.id.pattern);
+			text.setText(FormatearTexto(text," #shufflingto"));
+		}		
+	};
+
+	private Button.OnClickListener playingOnClickListener = new Button.OnClickListener() {
+
+		public void onClick(View arg0) {
+			TextView text = (TextView) findViewById(R.id.pattern);
+			text.setText(FormatearTexto(text," #nowplaying"));
 		}
 	};
 
