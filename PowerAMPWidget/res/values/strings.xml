@@ -5,6 +5,7 @@
     <string name="powerAmpIsNotInstalled">PowerAMP is not installed!</string>
     <string name="imlistening">"#nowplaying ♪ song - artist ♪ #PowerAMP"</string>
     <string name="appDescription">Share the music you love with the best Player available</string>
+    <string name="appNotConfigured">Configuration not completed</string>
     <string name="minSDK">8</string>
     <string name="niceSDK">10</string>
 </resources>
