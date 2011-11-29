@@ -30,11 +30,31 @@ public class Main extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
+		boolean did = false;		
 		if (appInstalledOrNot("com.maxmpz.audioplayer")) {
-			register(this);
+			prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+			if (prefs.getString("appselected", "").equals("")) {
+				startActivityForResult(new Intent(this, ButtonWidgetConfigure.class), 99);
+			} else {
+				register(this);
+				did = true;
+			}
 		} else {
 			Toast.makeText(this, R.string.powerAmpIsNotInstalled, Toast.LENGTH_LONG);
+			did = true;
+		}
+		if (did)
+			finish();
+	}
+
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == 99) {
+			if (resultCode == RESULT_OK) {
+				register(this);
+			} else {
+				Toast.makeText(this, R.string.appNotConfigured, Toast.LENGTH_LONG);
+			}
 		}
 		finish();
 	}
