@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="uy.com.polnocetti.socialpoweramp" android:installLocation="internalOnly" android:versionName="1.6" android:versionCode="7">
+	package="uy.com.polnocetti.socialpoweramp" android:installLocation="internalOnly" android:versionName="2.0" android:versionCode="8">
 	<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="10"></uses-sdk>
 	<application android:icon="@drawable/widgeticon"
 		android:label="@string/appname"
@@ -20,8 +20,8 @@
 
 		<activity android:name=".Main"
 			android:theme="@android:style/Theme.Translucent.NoTitleBar">
-			<!--<intent-filter> <action android:name="android.intent.action.MAIN" 
-				/> <category android:name="android.intent.category.LAUNCHER" /> </intent-filter> -->
+			<intent-filter> <action android:name="android.intent.action.MAIN" 
+				/> <category android:name="android.intent.category.LAUNCHER" /> </intent-filter>
 		</activity>
 
 		<activity android:name=".ButtonWidgetConfigure" android:theme="@android:style/Theme.NoTitleBar">

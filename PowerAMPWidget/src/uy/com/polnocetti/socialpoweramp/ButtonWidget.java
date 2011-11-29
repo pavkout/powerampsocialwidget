@@ -4,26 +4,16 @@ import android.app.PendingIntent;
 import android.app.PendingIntent.CanceledException;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.RemoteViews;
-
-import com.maxmpz.audioplayer.player.PowerAMPiAPI;
 
 public class ButtonWidget extends AppWidgetProvider {
 
 	public static final String TAG = "PowerAMP Social Widget................................................Log";
 	public static String ACTION_WIDGET_RECEIVER = "PowerAMPIntentReceiver";
 	public static String ACTION_WIDGET_ABOUT = "PowerAMPIntentReceiver_About";
-	private Bundle mCurrentTrack;
-	private Intent mTrackIntent;
-	public static String mTitulo;
-	public static String mArtist;
-	public static String mAlbum;
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -42,19 +32,7 @@ public class ButtonWidget extends AppWidgetProvider {
 
 			remoteViews.setOnClickPendingIntent(R.id.configbutton, aactionPendingIntent);
 
-			register(context);
-
 			appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
-		} catch (Exception e) {
-			Log.e(TAG, e.getStackTrace().toString());
-		}
-	}
-
-	private void register(Context context) {
-		try {
-			registerAndLoadStatus(context);
-			PendingIntent songPendingIntent = PendingIntent.getBroadcast(context, 0, mTrackIntent, 0);
-			songPendingIntent.send();
 		} catch (Exception e) {
 			Log.e(TAG, e.getStackTrace().toString());
 		}
@@ -70,11 +48,8 @@ public class ButtonWidget extends AppWidgetProvider {
 					this.onDeleted(context, new int[]{appWidgetId});
 				}
 			} else {
-				// check, if our Action was called
 				if (intent.getAction().equals(ACTION_WIDGET_RECEIVER)) {
-					if (ButtonWidget.mTitulo != null) {
-						// Toast.makeText(context, ButtonWidget.mTitulo,
-						// Toast.LENGTH_SHORT).show();
+					//if (ButtonWidget.mTitulo != null) {
 						Intent aintent = new Intent(context, Main.class);
 						PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, aintent, 0);
 						try {
@@ -82,12 +57,9 @@ public class ButtonWidget extends AppWidgetProvider {
 						} catch (CanceledException e) {
 							Log.e(TAG, e.getStackTrace().toString());
 						}
-					} else {
-						register(context);
-						// Toast.makeText(context,
-						// R.string.powerAmpIsNotRunning,
-						// Toast.LENGTH_SHORT).show();
-					}
+					//} else {
+					//	register(context);
+					//}
 				} else if (intent.getAction().equals(ACTION_WIDGET_ABOUT)) {
 					Intent aintent = new Intent(context, ButtonWidgetConfigure.class);
 					PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, aintent, 0);
@@ -102,28 +74,5 @@ public class ButtonWidget extends AppWidgetProvider {
 		} catch (Exception e) {
 			Log.e(TAG, e.getStackTrace().toString());
 		}
-	}
-	private BroadcastReceiver mTrackReceiver = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			try {
-				mTrackIntent = intent;
-				mCurrentTrack = null;
-				if (mTrackIntent != null) {
-					mCurrentTrack = mTrackIntent.getBundleExtra(PowerAMPiAPI.TRACK);
-					if (mCurrentTrack != null) {
-						ButtonWidget.mTitulo = mCurrentTrack.getString(PowerAMPiAPI.Track.TITLE);
-						ButtonWidget.mArtist = mCurrentTrack.getString(PowerAMPiAPI.Track.ARTIST);
-						ButtonWidget.mAlbum = mCurrentTrack.getString(PowerAMPiAPI.Track.ALBUM);
-					}
-				}
-			} catch (Exception e) {
-				Log.e(TAG, e.getStackTrace().toString());
-			}
-		}
-	};
-
-	private void registerAndLoadStatus(Context context) {
-		mTrackIntent = context.getApplicationContext().registerReceiver(mTrackReceiver, new IntentFilter(PowerAMPiAPI.ACTION_TRACK_CHANGED));
-	}
+	}	
 }

@@ -32,7 +32,7 @@ import android.widget.Toast;
 
 public class ButtonWidgetConfigure extends Activity {
 
-	Button configOkButton, restoreButton, artistBtn, albumBtn, songBtn, hashPA, hashnow, hashShuffling, hashplay;
+	Button configOkButton, restoreButton, artistBtn, albumBtn, songBtn, hashPA, hashnow, hashShuffling, hashplay, btnAndroid;
 	Spinner spinnerApp;
 	HashMap<String, String> map;
 	String selectedApp;
@@ -94,6 +94,9 @@ public class ButtonWidgetConfigure extends Activity {
 
 				hashShuffling = (Button) findViewById(R.id.btnshuffling);
 				hashShuffling.setOnClickListener(shufflingOnClickListener);
+				
+				btnAndroid = (Button) findViewById(R.id.btnAndroid);
+				btnAndroid.setOnClickListener(androidOnClickListener);
 
 				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 				String textoPatron = prefs.getString("pattern", "");
@@ -143,7 +146,7 @@ public class ButtonWidgetConfigure extends Activity {
 
 		public void onClick(View arg0) {
 
-			TextView text = (TextView) findViewById(R.id.pattern);
+			EditText text = (EditText) findViewById(R.id.pattern);
 			String textoNuevo = text.getText().toString();
 
 			if ((selectedApp == null) || (selectedApp != null && selectedApp.trim().length() == 0)) {
@@ -181,13 +184,15 @@ public class ButtonWidgetConfigure extends Activity {
 		public void onClick(View arg0) {
 			String textoPatron = getResources().getString(R.string.imlistening).replace("song", "<song>").replace("artist", "<artist>");
 
-			TextView text = (TextView) findViewById(R.id.pattern);
+			EditText text = (EditText) findViewById(R.id.pattern);
 			text.setText(textoPatron);
 		}
 	};
 	
+	private int at;
+	
 	private String FormatearTexto(TextView text, String textoNuevo) {
-		int at = text.getSelectionStart();
+		at = text.getSelectionStart();
 		String pre = text.getText().toString().substring(0, at);
 		String post = text.getText().toString().substring(at, text.getText().toString().length());
 		return pre + textoNuevo + post;
@@ -196,56 +201,72 @@ public class ButtonWidgetConfigure extends Activity {
 	private Button.OnClickListener artistOnClickListener = new Button.OnClickListener() {
 
 		public void onClick(View arg0) {
-			TextView text = (TextView) findViewById(R.id.pattern);
+			EditText text = (EditText) findViewById(R.id.pattern);
 			text.setText(FormatearTexto(text," <artist>"));
+			text.setSelection(at + (" <artist>").length());
 		}
 	};
 
 	private Button.OnClickListener albumOnClickListener = new Button.OnClickListener() {
 
 		public void onClick(View arg0) {
-			TextView text = (TextView) findViewById(R.id.pattern);
+			EditText text = (EditText) findViewById(R.id.pattern);
 			text.setText(FormatearTexto(text," <album>"));
+			text.setSelection(at + (" <album>").length());
 		}
 	};
 
 	private Button.OnClickListener songOnClickListener = new Button.OnClickListener() {
 
 		public void onClick(View arg0) {
-			TextView text = (TextView) findViewById(R.id.pattern);
+			EditText text = (EditText) findViewById(R.id.pattern);
 			text.setText(FormatearTexto(text," <song>"));
+			text.setSelection(at + (" <song>").length());
 		}
 	};
 
 	private Button.OnClickListener nowOnClickListener = new Button.OnClickListener() {
 
 		public void onClick(View arg0) {
-			TextView text = (TextView) findViewById(R.id.pattern);
+			EditText text = (EditText) findViewById(R.id.pattern);
 			text.setText(FormatearTexto(text," #nowlistening"));
+			text.setSelection(at + (" #nowlistening").length());
 		}
 	};
 
 	private Button.OnClickListener paOnClickListener = new Button.OnClickListener() {
 
 		public void onClick(View arg0) {
-			TextView text = (TextView) findViewById(R.id.pattern);
+			EditText text = (EditText) findViewById(R.id.pattern);
 			text.setText(FormatearTexto(text," #PowerAMP"));
+			text.setSelection(at + (" #PowerAMP").length());
 		}
 	};
 
 	private Button.OnClickListener shufflingOnClickListener = new Button.OnClickListener() {
 
 		public void onClick(View arg0) {
-			TextView text = (TextView) findViewById(R.id.pattern);
+			EditText text = (EditText) findViewById(R.id.pattern);
 			text.setText(FormatearTexto(text," #shufflingto"));
+			text.setSelection(at + (" #shufflingto").length());
 		}		
 	};
 
 	private Button.OnClickListener playingOnClickListener = new Button.OnClickListener() {
 
 		public void onClick(View arg0) {
-			TextView text = (TextView) findViewById(R.id.pattern);
+			EditText text = (EditText) findViewById(R.id.pattern);
 			text.setText(FormatearTexto(text," #nowplaying"));
+			text.setSelection(at + (" #nowplaying").length());
+		}
+	};
+	
+	private Button.OnClickListener androidOnClickListener = new Button.OnClickListener() {
+
+		public void onClick(View arg0) {
+			EditText text = (EditText) findViewById(R.id.pattern);
+			text.setText(FormatearTexto(text," #Android"));
+			text.setSelection(at + (" #Android").length());
 		}
 	};
 
