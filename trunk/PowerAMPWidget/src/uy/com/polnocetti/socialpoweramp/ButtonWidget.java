@@ -14,6 +14,7 @@ public class ButtonWidget extends AppWidgetProvider {
 	public static final String TAG = "PowerAMP Social Widget................................................Log";
 	public static String ACTION_WIDGET_RECEIVER = "PowerAMPIntentReceiver";
 	public static String ACTION_WIDGET_ABOUT = "PowerAMPIntentReceiver_About";
+	public static boolean doUpdate = false;
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -49,6 +50,7 @@ public class ButtonWidget extends AppWidgetProvider {
 				}
 			} else {
 				if (intent.getAction().equals(ACTION_WIDGET_RECEIVER)) {
+					doUpdate = true;
 					//if (ButtonWidget.mTitulo != null) {
 						Intent aintent = new Intent(context, Main.class);
 						PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, aintent, 0);
