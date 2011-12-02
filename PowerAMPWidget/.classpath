@@ -4,6 +4,6 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK/poweramp_api_lib"/>
-	<classpathentry exported="true" kind="src" path="/poweramp_api_lib"/>
+	<classpathentry kind="lib" path="bin/lib/poweramp_api_lib.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
