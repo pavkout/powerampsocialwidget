@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string-array name="eq_preset_labels">
+		<item></item>
+		<item>@string/BASS</item>
+		<item>@string/BASS_EXTREME</item>
+		<item>@string/BASS_TREBLE</item>
+		<item>@string/TREBLE</item>
+		<item>@string/FLAT</item>
+		<item>@string/CLASSICAL</item>
+		<item>@string/DANCE</item>
+		<item>@string/ROCK</item>
+		<item>@string/TECHNO</item>
+		<item>@string/PHONE_SPEAKER</item>
+	</string-array>
+</resources>
