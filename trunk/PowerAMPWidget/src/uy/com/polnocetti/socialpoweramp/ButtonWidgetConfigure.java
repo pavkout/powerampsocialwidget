@@ -37,7 +37,7 @@ public class ButtonWidgetConfigure extends Activity {
 	HashMap<String, String> map;
 	String selectedApp;
 
-	private String[][] apps = {{"Official", "com.twitter.android"}, {"Twicca", "jp.r246.twicca"}, {"Übersocial", "com.twidroid"},
+	private String[][] apps = {{"Official", "com.twitter.android"}, {"Twicca", "jp.r246.twicca"}, {"Übersocial", "com.twidroid"}, {"Twidroyd Pro", "com.twidroidpro"},
 			{"Tweetcaster", "com.handmark.tweetcaster"}, {"Tweetcaster", "com.handmark.tweetcaster.premium"},
 			{"Tweetdeck", "com.thedeck.android.app"}, {"Seesmic", "com.seesmic"}, {"Plume", "com.levelup.touiteur"},
 			{"Plume", "com.levelup.touiteurpremium"}, {"Tweettopics", "com.javielinux.tweettopics.lite"},
