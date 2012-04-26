@@ -8,4 +8,7 @@
     <string name="appNotConfigured">Configuration not completed</string>
     <string name="minSDK">8</string>
     <string name="niceSDK">10</string>
+    <string name="labelCheckBoxFacebook">Facebook</string>
+    <string name="confirmButton">Confirm</string>
+    <string name="restoreButton">Restore default</string>
 </resources>
