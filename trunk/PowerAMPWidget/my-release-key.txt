@@ -1,5 +1,5 @@
 lia.123456
-6/V3zn93DFAq4O36td2T8szZj2I=
-
-com.javielinux.tweettopics.lite
-com.javielinux.tweettopics.pro
+alias_name
+tNAA9JT3F5ARg9CwQmSNo5u67Ow=
+"C:\Program Files\Java\jdk1.6.0_26\bin\keytool.exe" -exportcert -alias alias_name -keystore "C:\Users\Administrador\workspace\PowerAMPWidget\my-release-key.keystore" | "C:\cygwin\bin\openssl.exe" sha1 -binary | "C:\cygwin\bin\openssl.exe" base64
+"C:\Program Files\Java\jdk1.6.0_26\bin\keytool.exe" -list -keystore "C:\Users\Administrador\workspace\PowerAMPWidget\my-release-key.keystore"
