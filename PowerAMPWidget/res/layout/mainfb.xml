@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:soundEffectsEnabled="true"
+
+    >
+<ImageView android:src="@drawable/login_button" 
+android:id="@+id/facebookbut" 
+android:layout_width="130px"
+android:layout_height="35px"
+android:scaleType="fitXY"
+android:layout_marginTop="140dp"
+android:layout_gravity="center" android:clickable="true"></ImageView>
+</LinearLayout>
