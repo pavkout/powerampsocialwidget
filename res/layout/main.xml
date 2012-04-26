@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="72dip" android:orientation="horizontal"
+	android:layout_gravity="center" android:layout_height="72dip">
+
+	<ImageButton android:text="B1" android:id="@+id/button_one"
+		android:layout_gravity="center_horizontal|center"
+		android:layout_height="fill_parent" android:layout_width="wrap_content"
+		android:background="@drawable/widgeticon" />
+	<ImageButton android:layout_width="wrap_content"
+		android:background="@drawable/invisible" android:id="@+id/configbutton"
+		android:layout_height="wrap_content" android:src="@drawable/cog"></ImageButton>
+
+</RelativeLayout>
