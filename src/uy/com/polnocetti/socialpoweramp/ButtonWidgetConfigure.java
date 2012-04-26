@@ -24,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -41,8 +42,8 @@ public class ButtonWidgetConfigure extends Activity {
 			{"Twidroyd Pro", "com.twidroidpro"}, {"Tweetcaster", "com.handmark.tweetcaster"}, {"Tweetcaster", "com.handmark.tweetcaster.premium"},
 			{"Tweetdeck", "com.thedeck.android.app"}, {"Seesmic", "com.seesmic"}, {"Plume", "com.levelup.touiteur"},
 			{"Plume", "com.levelup.touiteurpremium"}, {"Tweettopics", "com.javielinux.tweettopics.lite"},
-			{"Tweettopics", "com.javielinux.tweettopics.pro"}, {"HTC Peep", "com.htc.htctwitter"}, 
-			{"Tweetdark", "com.tweetdark.wjddesigns.free"}, {"Tweetdark Donate", "com.tweetdark.wjddesigns"}};
+			{"Tweettopics", "com.javielinux.tweettopics.pro"}, {"HTC Peep", "com.htc.htctwitter"}, {"Tweetdark", "com.tweetdark.wjddesigns.free"},
+			{"Tweetdark Donate", "com.tweetdark.wjddesigns"}};
 
 	private ArrayList<String> installedApps = new ArrayList<String>();
 	private ArrayList<String> installedPack = new ArrayList<String>();
@@ -102,7 +103,10 @@ public class ButtonWidgetConfigure extends Activity {
 				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 				String textoPatron = prefs.getString("pattern", "");
 				String appSel = prefs.getString("appselected", "");
-
+				boolean facebook = prefs.getBoolean("facebook", false);
+				
+				((CheckBox) findViewById(R.id.checkBox)).setChecked(facebook);
+				
 				if (textoPatron.trim().length() == 0) {// empty
 					textoPatron = getResources().getString(R.string.imlistening).replace("song", "<song>").replace("artist", "<artist>");
 				}
@@ -168,6 +172,10 @@ public class ButtonWidgetConfigure extends Activity {
 
 					textoPatron.remove("appselected");
 					textoPatron.putString("appselected", selectedApp);
+					
+					textoPatron.remove("facebook");
+					CheckBox cb = (CheckBox) findViewById(R.id.checkBox);
+					textoPatron.putBoolean("facebook", cb.isChecked());
 
 					textoPatron.commit();
 

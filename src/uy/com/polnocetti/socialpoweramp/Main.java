@@ -30,22 +30,19 @@ public class Main extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		ButtonWidget.doUpdate = true;
 		boolean did = false;
 		if (appInstalledOrNot("com.maxmpz.audioplayer")) {
-			prefs = PreferenceManager
-					.getDefaultSharedPreferences(getBaseContext());
-			if (prefs.getString("appselected", "").equals("")) {
-				startActivityForResult(new Intent(this,
-						ButtonWidgetConfigure.class), 99);
+			prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+			if (prefs.getString("appselected", "").isEmpty() || prefs.getString("pattern", "").isEmpty()) {
+				startActivityForResult(new Intent(this, ButtonWidgetConfigure.class), 99);
 			} else {
 				register(this);
 				did = true;
 			}
 		} else {
-			Toast.makeText(this, R.string.powerAmpIsNotInstalled,
-					Toast.LENGTH_LONG);
+			Toast.makeText(this, R.string.powerAmpIsNotInstalled, Toast.LENGTH_LONG);
 			did = true;
 		}
 		if (did)
@@ -57,8 +54,7 @@ public class Main extends Activity {
 			if (resultCode == RESULT_OK) {
 				register(this);
 			} else {
-				Toast.makeText(this, R.string.appNotConfigured,
-						Toast.LENGTH_LONG);
+				Toast.makeText(this, R.string.appNotConfigured, Toast.LENGTH_LONG);
 			}
 		}
 		finish();
@@ -66,12 +62,10 @@ public class Main extends Activity {
 
 	private void register(Context context) {
 		try {
-			mTrackIntent = context.getApplicationContext().registerReceiver(
-					mTrackReceiver,
-					new IntentFilter(PowerAMPiAPI.ACTION_TRACK_CHANGED));
+			mTrackIntent = context.getApplicationContext().registerReceiver(mTrackReceiver, new IntentFilter(PowerAMPiAPI.ACTION_TRACK_CHANGED));
 			startActivity(mTrackIntent);
 		} catch (Exception e) {
-			Log.e(TAG, e.getStackTrace().toString());
+			Log.e(TAG, e.getMessage());
 		}
 	}
 
@@ -84,33 +78,24 @@ public class Main extends Activity {
 					mTrackIntent = intent;
 					mCurrentTrack = null;
 					if (mTrackIntent != null) {
-						mCurrentTrack = mTrackIntent
-								.getBundleExtra(PowerAMPiAPI.TRACK);
+						mCurrentTrack = mTrackIntent.getBundleExtra(PowerAMPiAPI.TRACK);
 						if (mCurrentTrack != null) {
-							mTitulo = mCurrentTrack
-									.getString(PowerAMPiAPI.Track.TITLE);
-							mArtist = mCurrentTrack
-									.getString(PowerAMPiAPI.Track.ARTIST);
-							mAlbum = mCurrentTrack
-									.getString(PowerAMPiAPI.Track.ALBUM);
+							mTitulo = mCurrentTrack.getString(PowerAMPiAPI.Track.TITLE);
+							mArtist = mCurrentTrack.getString(PowerAMPiAPI.Track.ARTIST);
+							mAlbum = mCurrentTrack.getString(PowerAMPiAPI.Track.ALBUM);
 						}
 					}
-					prefs = PreferenceManager
-							.getDefaultSharedPreferences(getBaseContext());
+					prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 					String textoPatron = prefs.getString("pattern", "");
 
 					Intent tweetlIntent = findTwitterClient();
 
-					String mensaje = textoPatron.replace("<song>", mTitulo)
-							.replace("<artist>", mArtist)
-							.replace("<album>", mAlbum);
-					tweetlIntent.putExtra(android.content.Intent.EXTRA_TEXT,
-							mensaje);
-					startActivity(Intent.createChooser(tweetlIntent,
-							"Share music via: "));
+					String mensaje = textoPatron.replace("<song>", mTitulo).replace("<artist>", mArtist).replace("<album>", mAlbum);
+					tweetlIntent.putExtra(android.content.Intent.EXTRA_TEXT, mensaje);
+					startActivity(Intent.createChooser(tweetlIntent, "Share music via: "));
 				}
 			} catch (Exception e) {
-				Log.e(TAG, e.getStackTrace().toString());
+				Log.e(TAG, e.getMessage());
 			}
 		}
 	};
@@ -121,8 +106,7 @@ public class Main extends Activity {
 		tweetIntent.setType("text/plain");
 
 		final PackageManager packageManager = getPackageManager();
-		List<ResolveInfo> list = packageManager.queryIntentActivities(
-				tweetIntent, PackageManager.MATCH_DEFAULT_ONLY);
+		List<ResolveInfo> list = packageManager.queryIntentActivities(tweetIntent, PackageManager.MATCH_DEFAULT_ONLY);
 
 		for (ResolveInfo resolveInfo : list) {
 			String p = resolveInfo.activityInfo.packageName;

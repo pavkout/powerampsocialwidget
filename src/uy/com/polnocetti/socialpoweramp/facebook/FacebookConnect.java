@@ -14,11 +14,24 @@ import com.easy.facebook.android.facebook.LoginListener;
 public class FacebookConnect extends Activity implements LoginListener {
 
 	private FBLoginManager fbManager;
+	private String cancion;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		shareFacebook();
+
+		Bundle extras = getIntent().getExtras();
+		if (extras == null) {
+			cancion = null;
+		} else {
+			cancion = extras.getString("CancionActiva");
+		}
+
+		if (cancion != null && !cancion.isEmpty()) {
+			shareFacebook();
+		} else {
+			finish();
+		}
 	}
 
 	public void shareFacebook() {
@@ -53,13 +66,13 @@ public class FacebookConnect extends Activity implements LoginListener {
 		GraphApi graphApi = new GraphApi(facebook);
 
 		try {
-			graphApi.setStatus("Tsting", "https://lh5.ggpht.com/A4JydoUo3x0cC6_KVbj3Dy7XyJZL9b_QEZq8P6JWHmqUh4mkiNfRsu-XjaFWQ03_xQ=w124");
+			graphApi.setStatus(cancion);
 		} catch (EasyFacebookError e) {
 			e.toString();
 		}
-		
+
 		finish();
-		
+
 	}
 
 }

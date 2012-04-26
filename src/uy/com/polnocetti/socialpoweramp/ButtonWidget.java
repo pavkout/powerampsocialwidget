@@ -1,11 +1,14 @@
 package uy.com.polnocetti.socialpoweramp;
 
+import uy.com.polnocetti.socialpoweramp.facebook.MainActivity;
 import android.app.PendingIntent;
 import android.app.PendingIntent.CanceledException;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -51,17 +54,23 @@ public class ButtonWidget extends AppWidgetProvider {
 			} else {
 				if (intent.getAction().equals(ACTION_WIDGET_RECEIVER)) {
 					doUpdate = true;
-					//if (ButtonWidget.mTitulo != null) {
-						Intent aintent = new Intent(context, Main.class);
-						PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, aintent, 0);
-						try {
-							pendingIntent.send();
-						} catch (CanceledException e) {
-							Log.e(TAG, e.getStackTrace().toString());
-						}
-					//} else {
-					//	register(context);
-					//}
+
+					Intent aintent = null;
+
+					SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+					boolean facebook = prefs.getBoolean("facebook", false);
+
+					if (facebook)
+						aintent = new Intent(context, MainActivity.class);
+					else
+						aintent = new Intent(context, Main.class);
+
+					PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, aintent, 0);
+					try {
+						pendingIntent.send();
+					} catch (CanceledException e) {
+						Log.e(TAG, e.getStackTrace().toString());
+					}
 				} else if (intent.getAction().equals(ACTION_WIDGET_ABOUT)) {
 					Intent aintent = new Intent(context, ButtonWidgetConfigure.class);
 					PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, aintent, 0);
@@ -76,5 +85,5 @@ public class ButtonWidget extends AppWidgetProvider {
 		} catch (Exception e) {
 			Log.e(TAG, e.getStackTrace().toString());
 		}
-	}	
+	}
 }
