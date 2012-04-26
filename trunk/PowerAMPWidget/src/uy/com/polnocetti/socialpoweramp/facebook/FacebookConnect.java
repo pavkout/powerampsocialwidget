@@ -22,7 +22,7 @@ public class FacebookConnect extends Activity implements LoginListener {
 	}
 
 	public void shareFacebook() {
-		String permissions[] = {"read_stream", "publish_stream", "offline_access"};
+		String permissions[] = {"publish_stream"};
 
 		fbManager = new FBLoginManager(this, R.layout.black, "320366701321201", permissions);
 
