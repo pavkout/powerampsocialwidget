@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout android:orientation="horizontal"
+	android:layout_height="wrap_content" android:layout_width="fill_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:weightSum="1" android:paddingLeft="3dip" android:paddingTop="3dip" android:paddingBottom="3dip">
+	<ImageView android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:src="@drawable/cog"
+		android:id="@+id/icon" android:paddingTop="2dip" />
+	<TextView android:id="@+id/appName" android:textColor="#000000"
+		android:layout_height="fill_parent" android:layout_width="wrap_content" android:text="Sapepeee" android:gravity="center" android:paddingLeft="8dip"/>
+</LinearLayout>
