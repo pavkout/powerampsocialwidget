@@ -1,5 +1,3 @@
 lia.123456
 alias_name
-tNAA9JT3F5ARg9CwQmSNo5u67Ow=
-"C:\Program Files\Java\jdk1.6.0_26\bin\keytool.exe" -exportcert -alias alias_name -keystore "C:\Users\Administrador\workspace\PowerAMPWidget\my-release-key.keystore" | "C:\cygwin\bin\openssl.exe" sha1 -binary | "C:\cygwin\bin\openssl.exe" base64
-"C:\Program Files\Java\jdk1.6.0_26\bin\keytool.exe" -list -keystore "C:\Users\Administrador\workspace\PowerAMPWidget\my-release-key.keystore"
+w4Qm6fZr/7IWfRtQSt74u37jEFI=
