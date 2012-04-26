@@ -37,11 +37,12 @@ public class ButtonWidgetConfigure extends Activity {
 	HashMap<String, String> map;
 	String selectedApp;
 
-	private String[][] apps = {{"Official", "com.twitter.android"}, {"Twicca", "jp.r246.twicca"}, {"Übersocial", "com.twidroid"}, {"Twidroyd Pro", "com.twidroidpro"},
-			{"Tweetcaster", "com.handmark.tweetcaster"}, {"Tweetcaster", "com.handmark.tweetcaster.premium"},
+	private String[][] apps = {{"Official", "com.twitter.android"}, {"Twicca", "jp.r246.twicca"}, {"Übersocial", "com.twidroid"},
+			{"Twidroyd Pro", "com.twidroidpro"}, {"Tweetcaster", "com.handmark.tweetcaster"}, {"Tweetcaster", "com.handmark.tweetcaster.premium"},
 			{"Tweetdeck", "com.thedeck.android.app"}, {"Seesmic", "com.seesmic"}, {"Plume", "com.levelup.touiteur"},
 			{"Plume", "com.levelup.touiteurpremium"}, {"Tweettopics", "com.javielinux.tweettopics.lite"},
-			{"Tweettopics", "com.javielinux.tweettopics.pro"}, {"HTC Peep", "com.htc.htctwitter"}};
+			{"Tweettopics", "com.javielinux.tweettopics.pro"}, {"HTC Peep", "com.htc.htctwitter"}, 
+			{"Tweetdark", "com.tweetdark.wjddesigns.free"}, {"Tweetdark Donate", "com.tweetdark.wjddesigns"}};
 
 	private ArrayList<String> installedApps = new ArrayList<String>();
 	private ArrayList<String> installedPack = new ArrayList<String>();
@@ -94,7 +95,7 @@ public class ButtonWidgetConfigure extends Activity {
 
 				hashShuffling = (Button) findViewById(R.id.btnshuffling);
 				hashShuffling.setOnClickListener(shufflingOnClickListener);
-				
+
 				btnAndroid = (Button) findViewById(R.id.btnAndroid);
 				btnAndroid.setOnClickListener(androidOnClickListener);
 
@@ -188,9 +189,9 @@ public class ButtonWidgetConfigure extends Activity {
 			text.setText(textoPatron);
 		}
 	};
-	
+
 	private int at;
-	
+
 	private String FormatearTexto(TextView text, String textoNuevo) {
 		at = text.getSelectionStart();
 		String pre = text.getText().toString().substring(0, at);
@@ -202,7 +203,7 @@ public class ButtonWidgetConfigure extends Activity {
 
 		public void onClick(View arg0) {
 			EditText text = (EditText) findViewById(R.id.pattern);
-			text.setText(FormatearTexto(text," <artist>"));
+			text.setText(FormatearTexto(text, " <artist>"));
 			text.setSelection(at + (" <artist>").length());
 		}
 	};
@@ -211,7 +212,7 @@ public class ButtonWidgetConfigure extends Activity {
 
 		public void onClick(View arg0) {
 			EditText text = (EditText) findViewById(R.id.pattern);
-			text.setText(FormatearTexto(text," <album>"));
+			text.setText(FormatearTexto(text, " <album>"));
 			text.setSelection(at + (" <album>").length());
 		}
 	};
@@ -220,7 +221,7 @@ public class ButtonWidgetConfigure extends Activity {
 
 		public void onClick(View arg0) {
 			EditText text = (EditText) findViewById(R.id.pattern);
-			text.setText(FormatearTexto(text," <song>"));
+			text.setText(FormatearTexto(text, " <song>"));
 			text.setSelection(at + (" <song>").length());
 		}
 	};
@@ -229,7 +230,7 @@ public class ButtonWidgetConfigure extends Activity {
 
 		public void onClick(View arg0) {
 			EditText text = (EditText) findViewById(R.id.pattern);
-			text.setText(FormatearTexto(text," #nowlistening"));
+			text.setText(FormatearTexto(text, " #nowlistening"));
 			text.setSelection(at + (" #nowlistening").length());
 		}
 	};
@@ -238,7 +239,7 @@ public class ButtonWidgetConfigure extends Activity {
 
 		public void onClick(View arg0) {
 			EditText text = (EditText) findViewById(R.id.pattern);
-			text.setText(FormatearTexto(text," #PowerAMP"));
+			text.setText(FormatearTexto(text, " #PowerAMP"));
 			text.setSelection(at + (" #PowerAMP").length());
 		}
 	};
@@ -247,25 +248,25 @@ public class ButtonWidgetConfigure extends Activity {
 
 		public void onClick(View arg0) {
 			EditText text = (EditText) findViewById(R.id.pattern);
-			text.setText(FormatearTexto(text," #shufflingto"));
+			text.setText(FormatearTexto(text, " #shufflingto"));
 			text.setSelection(at + (" #shufflingto").length());
-		}		
+		}
 	};
 
 	private Button.OnClickListener playingOnClickListener = new Button.OnClickListener() {
 
 		public void onClick(View arg0) {
 			EditText text = (EditText) findViewById(R.id.pattern);
-			text.setText(FormatearTexto(text," #nowplaying"));
+			text.setText(FormatearTexto(text, " #nowplaying"));
 			text.setSelection(at + (" #nowplaying").length());
 		}
 	};
-	
+
 	private Button.OnClickListener androidOnClickListener = new Button.OnClickListener() {
 
 		public void onClick(View arg0) {
 			EditText text = (EditText) findViewById(R.id.pattern);
-			text.setText(FormatearTexto(text," #Android"));
+			text.setText(FormatearTexto(text, " #Android"));
 			text.setSelection(at + (" #Android").length());
 		}
 	};
