@@ -42,7 +42,7 @@
         </activity>
         <activity
             android:name=".Main"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" android:icon="@drawable/widgeticon">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

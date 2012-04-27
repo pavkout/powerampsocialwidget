@@ -67,6 +67,7 @@ public class FacebookConnect extends Activity implements LoginListener {
 
 		try {
 			graphApi.setStatus(cancion);
+			fbManager.displayToast("Status posted!");
 		} catch (EasyFacebookError e) {
 			e.toString();
 		}
