@@ -51,7 +51,7 @@ public class MainActivity extends Activity {
 		if (did)
 			finish();
 	}
-	
+
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == 99) {
 			if (resultCode == RESULT_OK) {
@@ -121,6 +121,7 @@ public class MainActivity extends Activity {
 			}
 
 		} catch (Exception e) {
+			Log.e(TAG, "Ex: " + e.getMessage());
 			Toast.makeText(getApplicationContext(), "Connection refused", Toast.LENGTH_SHORT).show();
 		}
 
