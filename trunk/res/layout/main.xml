@@ -6,7 +6,7 @@
 	<ImageButton android:text="B1" android:id="@+id/button_one"
 		android:layout_gravity="center_horizontal|center"
 		android:layout_height="fill_parent" android:layout_width="wrap_content"
-		android:background="@drawable/widgeticon" />
+		android:background="@drawable/powerampnus" />
 	<ImageButton android:layout_width="wrap_content"
 		android:background="@drawable/invisible" android:id="@+id/configbutton"
 		android:layout_height="wrap_content" android:src="@drawable/cog"></ImageButton>
