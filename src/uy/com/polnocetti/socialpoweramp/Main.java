@@ -65,7 +65,7 @@ public class Main extends Activity {
 			mTrackIntent = context.getApplicationContext().registerReceiver(mTrackReceiver, new IntentFilter(PowerAMPiAPI.ACTION_TRACK_CHANGED));
 			startActivity(mTrackIntent);
 		} catch (Exception e) {
-			Log.e(TAG, e.getMessage());
+			Log.e(TAG, "Ex: " + e.getMessage());
 		}
 	}
 
@@ -95,7 +95,7 @@ public class Main extends Activity {
 					startActivity(Intent.createChooser(tweetlIntent, "Share music via: "));
 				}
 			} catch (Exception e) {
-				Log.e(TAG, e.getMessage());
+				Log.e(TAG, "Ex: " + e.getMessage());
 			}
 		}
 	};

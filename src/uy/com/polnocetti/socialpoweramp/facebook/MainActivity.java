@@ -68,7 +68,7 @@ public class MainActivity extends Activity {
 			mTrackIntent = context.getApplicationContext().registerReceiver(mTrackReceiver, new IntentFilter(PowerAMPiAPI.ACTION_TRACK_CHANGED));
 			startActivity(mTrackIntent);
 		} catch (Exception e) {
-			Log.e(TAG, e.getStackTrace().toString());
+			Log.e(TAG, "Ex: " + e.getMessage());
 		}
 	}
 
@@ -95,7 +95,7 @@ public class MainActivity extends Activity {
 					doFb(mensaje);
 				}
 			} catch (Exception e) {
-				Log.e(TAG, e.getStackTrace().toString());
+				Log.e(TAG, "Ex: " + e.getMessage());
 			}
 		}
 	};

@@ -38,7 +38,7 @@ public class ButtonWidget extends AppWidgetProvider {
 
 			appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
 		} catch (Exception e) {
-			Log.e(TAG, e.getStackTrace().toString());
+			Log.e(TAG, "Ex: " + e.getMessage());
 		}
 	}
 
@@ -69,7 +69,7 @@ public class ButtonWidget extends AppWidgetProvider {
 					try {
 						pendingIntent.send();
 					} catch (CanceledException e) {
-						Log.e(TAG, e.getStackTrace().toString());
+						Log.e(TAG, "Ex: " + e.getMessage());
 					}
 				} else if (intent.getAction().equals(ACTION_WIDGET_ABOUT)) {
 					Intent aintent = new Intent(context, ButtonWidgetConfigure.class);
@@ -77,13 +77,13 @@ public class ButtonWidget extends AppWidgetProvider {
 					try {
 						pendingIntent.send();
 					} catch (CanceledException e) {
-						Log.e(TAG, e.getStackTrace().toString());
+						Log.e(TAG, "Ex: " + e.getMessage());
 					}
 				}
 				super.onReceive(context, intent);
 			}
 		} catch (Exception e) {
-			Log.e(TAG, e.getStackTrace().toString());
+			Log.e(TAG, "Ex: " + e.getMessage());
 		}
 	}
 }
