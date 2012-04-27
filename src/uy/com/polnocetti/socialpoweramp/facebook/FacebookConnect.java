@@ -51,7 +51,12 @@ public class FacebookConnect extends Activity implements LoginListener {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		fbManager.loginSuccess(data);
+		try {
+			fbManager.loginSuccess(data);
+		} catch (Exception e) {
+			fbManager.displayToast("Something went wrong.. Sorry");
+			Log.e(Main.TAG, e.getMessage());
+		}
 	}
 
 	public void loginFail() {
@@ -73,7 +78,7 @@ public class FacebookConnect extends Activity implements LoginListener {
 			fbManager.displayToast("Something went wrong.. Sorry");
 			Log.e(Main.TAG, e.getMessage());
 		}
-		
+
 		finish();
 
 	}
