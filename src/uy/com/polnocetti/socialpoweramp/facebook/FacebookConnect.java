@@ -1,9 +1,11 @@
 package uy.com.polnocetti.socialpoweramp.facebook;
 
+import uy.com.polnocetti.socialpoweramp.Main;
 import uy.com.polnocetti.socialpoweramp.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.easy.facebook.android.apicall.GraphApi;
 import com.easy.facebook.android.error.EasyFacebookError;
@@ -35,7 +37,7 @@ public class FacebookConnect extends Activity implements LoginListener {
 	}
 
 	public void shareFacebook() {
-		String permissions[] = {"read_stream", "publish_stream", "offline_access"};
+		String permissions[] = {"publish_stream"};
 
 		fbManager = new FBLoginManager(this, R.layout.black, "320366701321201", permissions);
 
@@ -63,15 +65,15 @@ public class FacebookConnect extends Activity implements LoginListener {
 
 	public void loginSuccess(Facebook facebook) {
 
-		GraphApi graphApi = new GraphApi(facebook);
-
 		try {
+			GraphApi graphApi = new GraphApi(facebook);
 			graphApi.setStatus(cancion);
 			fbManager.displayToast("Status posted!");
 		} catch (EasyFacebookError e) {
-			e.toString();
+			fbManager.displayToast("Something went wrong.. Sorry");
+			Log.e(Main.TAG, e.getMessage());
 		}
-
+		
 		finish();
 
 	}
