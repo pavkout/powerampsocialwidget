@@ -14,7 +14,7 @@
 
     <application
         android:description="@string/appDescription"
-        android:icon="@drawable/widgeticon"
+        android:icon="@drawable/powerampnus"
         android:label="@string/appname" >
 
         <!-- Broadcast Receiver that will process AppWidget updates -->
