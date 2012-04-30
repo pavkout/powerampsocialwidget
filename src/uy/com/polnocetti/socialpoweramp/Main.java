@@ -1,5 +1,6 @@
 package uy.com.polnocetti.socialpoweramp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -26,16 +27,23 @@ public class Main extends Activity {
 	public String mTitulo;
 	public String mArtist;
 	public String mAlbum;
+	private ArrayList<String> installedApps = new ArrayList<String>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		getInstalledApps();
+		if (installedApps.size() == 0) {
+			finish();
+		}
+
 		ButtonWidget.doUpdate = true;
 		boolean did = false;
 		if (appInstalledOrNot("com.maxmpz.audioplayer")) {
 			prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-			if (prefs.getString("appselected", "").isEmpty() || prefs.getString("pattern", "").isEmpty()) {
+			if (prefs.getString("appselected", "").trim().equals("")
+					|| prefs.getString("pattern", "").trim().equals("")) {
 				startActivityForResult(new Intent(this, ButtonWidgetConfigure.class), 99);
 			} else {
 				register(this);
@@ -62,7 +70,8 @@ public class Main extends Activity {
 
 	private void register(Context context) {
 		try {
-			mTrackIntent = context.getApplicationContext().registerReceiver(mTrackReceiver, new IntentFilter(PowerAMPiAPI.ACTION_TRACK_CHANGED));
+			mTrackIntent = context.getApplicationContext().registerReceiver(mTrackReceiver,
+					new IntentFilter(PowerAMPiAPI.ACTION_TRACK_CHANGED));
 			startActivity(mTrackIntent);
 		} catch (Exception e) {
 			Log.e(TAG, "Ex: " + e.getMessage());
@@ -90,7 +99,8 @@ public class Main extends Activity {
 
 					Intent tweetlIntent = findTwitterClient();
 
-					String mensaje = textoPatron.replace("<song>", mTitulo).replace("<artist>", mArtist).replace("<album>", mAlbum);
+					String mensaje = textoPatron.replace("<song>", mTitulo).replace("<artist>", mArtist)
+							.replace("<album>", mAlbum);
 					tweetlIntent.putExtra(android.content.Intent.EXTRA_TEXT, mensaje);
 					startActivity(Intent.createChooser(tweetlIntent, "Share music via: "));
 				}
@@ -131,5 +141,13 @@ public class Main extends Activity {
 			app_installed = false;
 		}
 		return app_installed;
+	}
+
+	void getInstalledApps() {
+		for (int i = 0; i < ButtonWidgetConfigure.apps.length; i++) {
+			if (appInstalledOrNot(ButtonWidgetConfigure.apps[i][1])) {
+				installedApps.add(ButtonWidgetConfigure.apps[i][1]);
+			}
+		}
 	}
 }
