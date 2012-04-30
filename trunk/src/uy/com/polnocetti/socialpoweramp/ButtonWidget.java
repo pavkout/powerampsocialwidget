@@ -47,9 +47,10 @@ public class ButtonWidget extends AppWidgetProvider {
 		try {
 			final String action = intent.getAction();
 			if (AppWidgetManager.ACTION_APPWIDGET_DELETED.equals(action)) {
-				final int appWidgetId = intent.getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+				final int appWidgetId = intent.getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID,
+						AppWidgetManager.INVALID_APPWIDGET_ID);
 				if (appWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
-					this.onDeleted(context, new int[]{appWidgetId});
+					this.onDeleted(context, new int[] { appWidgetId });
 				}
 			} else {
 				if (intent.getAction().equals(ACTION_WIDGET_RECEIVER)) {

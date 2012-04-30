@@ -1,11 +1,9 @@
 package uy.com.polnocetti.socialpoweramp.facebook;
 
-import uy.com.polnocetti.socialpoweramp.Main;
 import uy.com.polnocetti.socialpoweramp.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.easy.facebook.android.apicall.GraphApi;
 import com.easy.facebook.android.error.EasyFacebookError;
@@ -29,7 +27,7 @@ public class FacebookConnect extends Activity implements LoginListener {
 			cancion = extras.getString("CancionActiva");
 		}
 
-		if (cancion != null && !cancion.isEmpty()) {
+		if (cancion != null && !cancion.trim().equals("")) {
 			shareFacebook();
 		} else {
 			finish();
@@ -37,7 +35,7 @@ public class FacebookConnect extends Activity implements LoginListener {
 	}
 
 	public void shareFacebook() {
-		String permissions[] = {"publish_stream"};
+		String permissions[] = { "publish_stream" };
 
 		fbManager = new FBLoginManager(this, R.layout.black, "320366701321201", permissions);
 
@@ -55,7 +53,7 @@ public class FacebookConnect extends Activity implements LoginListener {
 			fbManager.loginSuccess(data);
 		} catch (Exception e) {
 			fbManager.displayToast("Something went wrong.. Sorry");
-			Log.e(Main.TAG, e.getMessage());
+			// Log.e(Main.TAG, e.getMessage());
 		}
 	}
 
@@ -76,7 +74,7 @@ public class FacebookConnect extends Activity implements LoginListener {
 			fbManager.displayToast("Status posted!");
 		} catch (EasyFacebookError e) {
 			fbManager.displayToast("Something went wrong.. Sorry");
-			Log.e(Main.TAG, e.getMessage());
+			// Log.e(Main.TAG, e.getMessage());
 		}
 
 		finish();

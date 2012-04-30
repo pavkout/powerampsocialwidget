@@ -33,17 +33,20 @@ import android.widget.Toast;
 
 public class ButtonWidgetConfigure extends Activity {
 
-	Button configOkButton, restoreButton, artistBtn, albumBtn, songBtn, hashPA, hashnow, hashShuffling, hashplay, btnAndroid;
+	Button configOkButton, restoreButton, artistBtn, albumBtn, songBtn, hashPA, hashnow, hashShuffling, hashplay,
+			btnAndroid;
 	Spinner spinnerApp;
 	HashMap<String, String> map;
 	String selectedApp;
 
-	private String[][] apps = {{"Official", "com.twitter.android"}, {"Twicca", "jp.r246.twicca"}, {"Übersocial", "com.twidroid"},
-			{"Twidroyd Pro", "com.twidroidpro"}, {"Tweetcaster", "com.handmark.tweetcaster"}, {"Tweetcaster", "com.handmark.tweetcaster.premium"},
-			{"Tweetdeck", "com.thedeck.android.app"}, {"Seesmic", "com.seesmic"}, {"Plume", "com.levelup.touiteur"},
-			{"Plume", "com.levelup.touiteurpremium"}, {"Tweettopics", "com.javielinux.tweettopics.lite"},
-			{"Tweettopics", "com.javielinux.tweettopics.pro"}, {"HTC Peep", "com.htc.htctwitter"}, {"Tweetdark", "com.tweetdark.wjddesigns.free"},
-			{"Tweetdark Donate", "com.tweetdark.wjddesigns"}};
+	public static String[][] apps = { { "Official", "com.twitter.android" }, { "Twicca", "jp.r246.twicca" },
+			{ "Ubersocial", "com.twidroid" }, { "Twidroyd Pro", "com.twidroidpro" },
+			{ "Tweetcaster", "com.handmark.tweetcaster" }, { "Tweetcaster", "com.handmark.tweetcaster.premium" },
+			{ "Tweetdeck", "com.thedeck.android.app" }, { "Seesmic", "com.seesmic" },
+			{ "Plume", "com.levelup.touiteur" }, { "Plume", "com.levelup.touiteurpremium" },
+			{ "Tweettopics", "com.javielinux.tweettopics.lite" }, { "Tweettopics", "com.javielinux.tweettopics.pro" },
+			{ "HTC Peep", "com.htc.htctwitter" }, { "Tweetdark", "com.tweetdark.wjddesigns.free" },
+			{ "Tweetdark Donate", "com.tweetdark.wjddesigns" } };
 
 	private ArrayList<String> installedApps = new ArrayList<String>();
 	private ArrayList<String> installedPack = new ArrayList<String>();
@@ -60,93 +63,99 @@ public class ButtonWidgetConfigure extends Activity {
 		setResult(RESULT_CANCELED);
 		getInstalledApps();
 
-		if (installedApps.size() == 0) {
-			Toast me = Toast.makeText(getApplicationContext(), "No supported twitter client installed.", Toast.LENGTH_SHORT * 2);
+		if (appInstalledOrNot("com.maxmpz.audioplayer")) {
+
+			setContentView(R.layout.configure);
+
+			configOkButton = (Button) findViewById(R.id.okconfig);
+			configOkButton.setOnClickListener(configOkButtonOnClickListener);
+
+			restoreButton = (Button) findViewById(R.id.restore);
+			restoreButton.setOnClickListener(configRestoreButton);
+
+			artistBtn = (Button) findViewById(R.id.btnArtist);
+			artistBtn.setOnClickListener(artistOnClickListener);
+
+			albumBtn = (Button) findViewById(R.id.btnAlbum);
+			albumBtn.setOnClickListener(albumOnClickListener);
+
+			songBtn = (Button) findViewById(R.id.btnSong);
+			songBtn.setOnClickListener(songOnClickListener);
+
+			hashnow = (Button) findViewById(R.id.btnnowlistening);
+			hashnow.setOnClickListener(nowOnClickListener);
+
+			hashPA = (Button) findViewById(R.id.btnPoweramptag);
+			hashPA.setOnClickListener(paOnClickListener);
+
+			hashplay = (Button) findViewById(R.id.btnplaying);
+			hashplay.setOnClickListener(playingOnClickListener);
+
+			hashShuffling = (Button) findViewById(R.id.btnshuffling);
+			hashShuffling.setOnClickListener(shufflingOnClickListener);
+
+			btnAndroid = (Button) findViewById(R.id.btnAndroid);
+			btnAndroid.setOnClickListener(androidOnClickListener);
+
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+			String textoPatron = prefs.getString("pattern", "");
+			String appSel = prefs.getString("appselected", "");
+			boolean facebook = prefs.getBoolean("facebook", false);
+
+			((CheckBox) findViewById(R.id.checkBox)).setChecked(facebook || installedApps.size() == 0);
+
+			if (textoPatron.trim().length() == 0) {// empinstalledApps.size() ==
+				// 0ty
+				textoPatron = getResources().getString(R.string.imlistening).replace("song", "<song>")
+						.replace("artist", "<artist>");
+			}
+
+			EditText text = (EditText) findViewById(R.id.pattern);
+			text.setText(textoPatron);
+
+			int selected = 0;
+
+			String[] spinnerArray = new String[installedApps.size()];
+			map = new HashMap<String, String>();
+
+			for (String app : installedApps) {
+				map.put(installedPack.get(installedApps.indexOf(app)), app);
+				spinnerArray[installedApps.indexOf(app)] = installedPack.get(installedApps.indexOf(app));
+				if (!appSel.trim().equals("") && app.equals(appSel)) {
+					selected = installedApps.indexOf(app);
+				}
+			}
+
+			spinnerApp = (Spinner) findViewById(R.id.spinner1);
+			spinnerApp.setAdapter(new MyCustomAdapter(ButtonWidgetConfigure.this, R.layout.row, spinnerArray));
+			spinnerApp.setOnItemSelectedListener(new MyOnItemSelectedListener());
+
+			spinnerApp.setSelection(selected);
+			spinnerApp.setClickable(installedApps.size() > 0);
+
+			if (installedApps.size() == 0) {
+				((CheckBox) findViewById(R.id.checkBox)).setClickable(false);
+				spinnerApp.setVisibility(View.GONE);
+			}
+
+			Intent intent = getIntent();
+			Bundle extras = intent.getExtras();
+			if (extras != null) {
+				mAppWidgetId = extras
+						.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+			}
+		} else {
+			Toast me = Toast.makeText(getApplicationContext(), "PowerAMP is not installed.", Toast.LENGTH_SHORT * 2);
 			me.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
 			me.show();
 			finish();
-		} else {
-			if (appInstalledOrNot("com.maxmpz.audioplayer")) {
-
-				setContentView(R.layout.configure);
-
-				configOkButton = (Button) findViewById(R.id.okconfig);
-				configOkButton.setOnClickListener(configOkButtonOnClickListener);
-
-				restoreButton = (Button) findViewById(R.id.restore);
-				restoreButton.setOnClickListener(configRestoreButton);
-
-				artistBtn = (Button) findViewById(R.id.btnArtist);
-				artistBtn.setOnClickListener(artistOnClickListener);
-
-				albumBtn = (Button) findViewById(R.id.btnAlbum);
-				albumBtn.setOnClickListener(albumOnClickListener);
-
-				songBtn = (Button) findViewById(R.id.btnSong);
-				songBtn.setOnClickListener(songOnClickListener);
-
-				hashnow = (Button) findViewById(R.id.btnnowlistening);
-				hashnow.setOnClickListener(nowOnClickListener);
-
-				hashPA = (Button) findViewById(R.id.btnPoweramptag);
-				hashPA.setOnClickListener(paOnClickListener);
-
-				hashplay = (Button) findViewById(R.id.btnplaying);
-				hashplay.setOnClickListener(playingOnClickListener);
-
-				hashShuffling = (Button) findViewById(R.id.btnshuffling);
-				hashShuffling.setOnClickListener(shufflingOnClickListener);
-
-				btnAndroid = (Button) findViewById(R.id.btnAndroid);
-				btnAndroid.setOnClickListener(androidOnClickListener);
-
-				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-				String textoPatron = prefs.getString("pattern", "");
-				String appSel = prefs.getString("appselected", "");
-				boolean facebook = prefs.getBoolean("facebook", false);
-				
-				((CheckBox) findViewById(R.id.checkBox)).setChecked(facebook);
-				
-				if (textoPatron.trim().length() == 0) {// empty
-					textoPatron = getResources().getString(R.string.imlistening).replace("song", "<song>").replace("artist", "<artist>");
-				}
-
-				EditText text = (EditText) findViewById(R.id.pattern);
-				text.setText(textoPatron);
-
-				int selected = 0;
-
-				String[] spinnerArray = new String[installedApps.size()];
-				map = new HashMap<String, String>();
-
-				for (String app : installedApps) {
-					map.put(installedPack.get(installedApps.indexOf(app)), app);
-					spinnerArray[installedApps.indexOf(app)] = installedPack.get(installedApps.indexOf(app));
-					if (!appSel.trim().equals("") && app.equals(appSel)) {
-						selected = installedApps.indexOf(app);
-					}
-				}
-
-				spinnerApp = (Spinner) findViewById(R.id.spinner1);
-				spinnerApp.setAdapter(new MyCustomAdapter(ButtonWidgetConfigure.this, R.layout.row, spinnerArray));
-				spinnerApp.setOnItemSelectedListener(new MyOnItemSelectedListener());
-
-				spinnerApp.setSelection(selected);
-
-				Intent intent = getIntent();
-				Bundle extras = intent.getExtras();
-				if (extras != null) {
-					mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-				}
-			} else {
-				Toast me = Toast.makeText(getApplicationContext(), "PowerAMP is not installed.", Toast.LENGTH_SHORT * 2);
-				me.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
-				me.show();
-				finish();
-			}
 		}
-		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+		getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+						| WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 	}
+
 	private Button.OnClickListener configOkButtonOnClickListener = new Button.OnClickListener() {
 
 		public void onClick(View arg0) {
@@ -154,13 +163,16 @@ public class ButtonWidgetConfigure extends Activity {
 			EditText text = (EditText) findViewById(R.id.pattern);
 			String textoNuevo = text.getText().toString();
 
-			if ((selectedApp == null) || (selectedApp != null && selectedApp.trim().length() == 0)) {
-				Toast me = Toast.makeText(getApplicationContext(), "No twitter client selected.", Toast.LENGTH_SHORT * 2);
+			if (((selectedApp == null) || (selectedApp != null && selectedApp.trim().length() == 0))
+					&& installedApps.size() > 0) {
+				Toast me = Toast.makeText(getApplicationContext(), "No twitter client selected.",
+						Toast.LENGTH_SHORT * 2);
 				me.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
 				me.show();
 			} else {
 				if (!textoNuevo.contains("<song>") || !textoNuevo.contains("<artist>")) {
-					Toast me = Toast.makeText(getApplicationContext(), "<song> and <artist> tags are mandatory.", Toast.LENGTH_SHORT * 2);
+					Toast me = Toast.makeText(getApplicationContext(), "<song> and <artist> tags are mandatory.",
+							Toast.LENGTH_SHORT * 2);
 					me.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
 					me.show();
 				} else {
@@ -172,7 +184,7 @@ public class ButtonWidgetConfigure extends Activity {
 
 					textoPatron.remove("appselected");
 					textoPatron.putString("appselected", selectedApp);
-					
+
 					textoPatron.remove("facebook");
 					CheckBox cb = (CheckBox) findViewById(R.id.checkBox);
 					textoPatron.putBoolean("facebook", cb.isChecked());
@@ -191,7 +203,8 @@ public class ButtonWidgetConfigure extends Activity {
 	private Button.OnClickListener configRestoreButton = new Button.OnClickListener() {
 
 		public void onClick(View arg0) {
-			String textoPatron = getResources().getString(R.string.imlistening).replace("song", "<song>").replace("artist", "<artist>");
+			String textoPatron = getResources().getString(R.string.imlistening).replace("song", "<song>")
+					.replace("artist", "<artist>");
 
 			EditText text = (EditText) findViewById(R.id.pattern);
 			text.setText(textoPatron);

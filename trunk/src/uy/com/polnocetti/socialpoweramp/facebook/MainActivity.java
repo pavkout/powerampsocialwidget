@@ -38,7 +38,7 @@ public class MainActivity extends Activity {
 		boolean did = false;
 		if (appInstalledOrNot("com.maxmpz.audioplayer")) {
 			prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-			if (prefs.getString("pattern", "").isEmpty()) {
+			if (prefs.getString("pattern", "").trim().equals("")) {
 				startActivityForResult(new Intent(this, ButtonWidgetConfigure.class), 99);
 			} else {
 				register(this);
@@ -65,7 +65,8 @@ public class MainActivity extends Activity {
 
 	private void register(Context context) {
 		try {
-			mTrackIntent = context.getApplicationContext().registerReceiver(mTrackReceiver, new IntentFilter(PowerAMPiAPI.ACTION_TRACK_CHANGED));
+			mTrackIntent = context.getApplicationContext().registerReceiver(mTrackReceiver,
+					new IntentFilter(PowerAMPiAPI.ACTION_TRACK_CHANGED));
 			startActivity(mTrackIntent);
 		} catch (Exception e) {
 			Log.e(TAG, "Ex: " + e.getMessage());
@@ -91,7 +92,8 @@ public class MainActivity extends Activity {
 					prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 					String textoPatron = prefs.getString("pattern", "");
 
-					String mensaje = textoPatron.replace("<song>", mTitulo).replace("<artist>", mArtist).replace("<album>", mAlbum);
+					String mensaje = textoPatron.replace("<song>", mTitulo).replace("<artist>", mArtist)
+							.replace("<album>", mAlbum);
 					doFb(mensaje);
 				}
 			} catch (Exception e) {
