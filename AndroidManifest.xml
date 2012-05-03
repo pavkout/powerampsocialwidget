@@ -9,8 +9,9 @@
         android:minSdkVersion="7"
         android:targetSdkVersion="14" >
     </uses-sdk>
-    <uses-permission android:name="android.permission.INTERNET"/>
- 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:description="@string/appDescription"
@@ -42,26 +43,31 @@
         </activity>
         <activity
             android:name=".Main"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" android:icon="@drawable/widgeticon">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:icon="@drawable/widgeticon"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
         <activity
             android:name=".facebook.MainActivity"
+            android:icon="@drawable/widgeticonfb"
             android:label="@string/appname"
-            android:screenOrientation="portrait" android:icon="@drawable/widgeticonfb" android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".facebook.FacebookConnect"
+            android:icon="@drawable/widgeticonfb"
+            android:label="@string/appname"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".MainPop"
+            android:icon="@drawable/powerampnus"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".facebook.FacebookConnect"
-            android:label="@string/appname" android:icon="@drawable/widgeticonfb" android:theme="@android:style/Theme.Translucent.NoTitleBar">
         </activity>
     </application>
 

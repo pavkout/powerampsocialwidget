@@ -39,6 +39,13 @@
         android:layout_marginLeft="8dp"
         android:text="@string/labelCheckBoxFacebook" />
 
+    <CheckBox
+        android:id="@+id/checkBoxArt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="@string/checkIncludeAlbumArt" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
