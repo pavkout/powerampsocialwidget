@@ -35,8 +35,7 @@
         </receiver>
 
         <activity
-            android:name=".ButtonWidgetConfigure"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:name=".ButtonWidgetConfigure">
             <intent-filter>
                 <action android:name="android.appwidget.action.ACTION_WIDGET_CONFIG" />
             </intent-filter>

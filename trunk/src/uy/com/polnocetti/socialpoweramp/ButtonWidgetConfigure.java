@@ -60,12 +60,18 @@ public class ButtonWidgetConfigure extends Activity {
 
 		super.onCreate(savedInstanceState);
 
+		if (android.os.Build.VERSION.SDK_INT >= 14) {
+			setTheme(android.R.style.Theme_Holo);
+			setContentView(R.layout.configureholo);
+		} else {
+			setTheme(android.R.style.Theme_NoTitleBar);
+			setContentView(R.layout.configure);
+		}
+
 		setResult(RESULT_CANCELED);
 		getInstalledApps();
 
 		if (appInstalledOrNot("com.maxmpz.audioplayer")) {
-
-			setContentView(R.layout.configure);
 
 			configOkButton = (Button) findViewById(R.id.okconfig);
 			configOkButton.setOnClickListener(configOkButtonOnClickListener);
@@ -127,7 +133,12 @@ public class ButtonWidgetConfigure extends Activity {
 			}
 
 			spinnerApp = (Spinner) findViewById(R.id.spinner1);
-			spinnerApp.setAdapter(new MyCustomAdapter(ButtonWidgetConfigure.this, R.layout.row, spinnerArray));
+
+			if (android.os.Build.VERSION.SDK_INT >= 14) {
+				spinnerApp.setAdapter(new MyCustomAdapter(ButtonWidgetConfigure.this, R.layout.rowholo, spinnerArray));
+			} else {
+				spinnerApp.setAdapter(new MyCustomAdapter(ButtonWidgetConfigure.this, R.layout.row, spinnerArray));
+			}
 			spinnerApp.setOnItemSelectedListener(new MyOnItemSelectedListener());
 
 			spinnerApp.setSelection(selected);
@@ -152,7 +163,7 @@ public class ButtonWidgetConfigure extends Activity {
 			cbFb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 					cbArt.setClickable(isChecked);
-					
+
 					if (cbArt.isChecked() && !isChecked)
 						cbArt.setChecked(false);
 				}
@@ -366,7 +377,14 @@ public class ButtonWidgetConfigure extends Activity {
 		public View getCustomView(int position, View convertView, ViewGroup parent) {
 
 			LayoutInflater inflater = getLayoutInflater();
-			View row = inflater.inflate(R.layout.row, parent, false);
+			View row = null;
+
+			if (android.os.Build.VERSION.SDK_INT >= 14) {
+				row = inflater.inflate(R.layout.rowholo, parent, false);
+			} else {
+				row = inflater.inflate(R.layout.row, parent, false);
+			}
+
 			TextView label = (TextView) row.findViewById(R.id.appName);
 
 			label.setText(installedPack.get(position));
