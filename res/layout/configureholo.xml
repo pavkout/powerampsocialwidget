@@ -2,14 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_repeat1"
     android:orientation="vertical" >
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/header" >
-    </ImageView>
 
     <EditText
         android:id="@+id/pattern"
@@ -26,7 +19,7 @@
         android:id="@+id/spinner1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/button" >
+        android:layout_marginLeft="8dp" >
 
         <requestFocus>
         </requestFocus>
@@ -48,13 +41,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp" >
 
         <Button
             android:id="@+id/okconfig"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/button"
             android:text="@string/confirmButton" >
         </Button>
 
@@ -62,7 +55,6 @@
             android:id="@+id/restore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/button"
             android:text="@string/restoreButton" >
         </Button>
     </LinearLayout>
@@ -86,7 +78,6 @@
             android:id="@+id/content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/background_repeat"
             android:gravity="top"
             android:orientation="vertical" >
 
@@ -109,7 +100,6 @@
                         android:id="@+id/btnArtist"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/button"
                         android:text="Artist" >
                     </Button>
 
@@ -117,7 +107,6 @@
                         android:id="@+id/btnSong"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/button"
                         android:text="Song" >
                     </Button>
 
@@ -125,7 +114,6 @@
                         android:id="@+id/btnAlbum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/button"
                         android:text="Album" >
                     </Button>
                 </LinearLayout>
@@ -144,7 +132,6 @@
                         android:id="@+id/btnAndroid"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/button"
                         android:text="#Android" >
                     </Button>
 
@@ -152,7 +139,6 @@
                         android:id="@+id/btnPoweramptag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/button"
                         android:text="#PowerAMP" >
                     </Button>
 
@@ -160,7 +146,6 @@
                         android:id="@+id/btnnowlistening"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/button"
                         android:text="#nowlistening" >
                     </Button>
 
@@ -168,7 +153,6 @@
                         android:id="@+id/btnshuffling"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/button"
                         android:text="#shufflingto" >
                     </Button>
 
@@ -176,7 +160,6 @@
                         android:id="@+id/btnplaying"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/button"
                         android:text="#nowplaying" >
                     </Button>
                 </LinearLayout>
