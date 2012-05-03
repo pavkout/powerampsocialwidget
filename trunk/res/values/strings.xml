@@ -11,4 +11,5 @@
     <string name="labelCheckBoxFacebook">Facebook</string>
     <string name="confirmButton">Confirm</string>
     <string name="restoreButton">Restore default</string>
+    <string name="checkIncludeAlbumArt">Include album art</string>
 </resources>

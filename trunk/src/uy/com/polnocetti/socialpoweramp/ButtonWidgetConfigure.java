@@ -25,6 +25,8 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -33,20 +35,17 @@ import android.widget.Toast;
 
 public class ButtonWidgetConfigure extends Activity {
 
-	Button configOkButton, restoreButton, artistBtn, albumBtn, songBtn, hashPA, hashnow, hashShuffling, hashplay,
-			btnAndroid;
+	Button configOkButton, restoreButton, artistBtn, albumBtn, songBtn, hashPA, hashnow, hashShuffling, hashplay, btnAndroid;
 	Spinner spinnerApp;
 	HashMap<String, String> map;
 	String selectedApp;
 
-	public static String[][] apps = { { "Official", "com.twitter.android" }, { "Twicca", "jp.r246.twicca" },
-			{ "Ubersocial", "com.twidroid" }, { "Twidroyd Pro", "com.twidroidpro" },
-			{ "Tweetcaster", "com.handmark.tweetcaster" }, { "Tweetcaster", "com.handmark.tweetcaster.premium" },
-			{ "Tweetdeck", "com.thedeck.android.app" }, { "Seesmic", "com.seesmic" },
-			{ "Plume", "com.levelup.touiteur" }, { "Plume", "com.levelup.touiteurpremium" },
-			{ "Tweettopics", "com.javielinux.tweettopics.lite" }, { "Tweettopics", "com.javielinux.tweettopics.pro" },
-			{ "HTC Peep", "com.htc.htctwitter" }, { "Tweetdark", "com.tweetdark.wjddesigns.free" },
-			{ "Tweetdark Donate", "com.tweetdark.wjddesigns" } };
+	public static String[][] apps = {{"Official", "com.twitter.android"}, {"Twicca", "jp.r246.twicca"}, {"Ubersocial", "com.twidroid"},
+			{"Twidroyd Pro", "com.twidroidpro"}, {"Tweetcaster", "com.handmark.tweetcaster"}, {"Tweetcaster", "com.handmark.tweetcaster.premium"},
+			{"Tweetdeck", "com.thedeck.android.app"}, {"Seesmic", "com.seesmic"}, {"Plume", "com.levelup.touiteur"},
+			{"Plume", "com.levelup.touiteurpremium"}, {"Tweettopics", "com.javielinux.tweettopics.lite"},
+			{"Tweettopics", "com.javielinux.tweettopics.pro"}, {"HTC Peep", "com.htc.htctwitter"}, {"Tweetdark", "com.tweetdark.wjddesigns.free"},
+			{"Tweetdark Donate", "com.tweetdark.wjddesigns"}};
 
 	private ArrayList<String> installedApps = new ArrayList<String>();
 	private ArrayList<String> installedPack = new ArrayList<String>();
@@ -54,6 +53,7 @@ public class ButtonWidgetConfigure extends Activity {
 	private Drawable[] icons;
 
 	int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
+	private CheckBox cbFb, cbArt;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -97,17 +97,17 @@ public class ButtonWidgetConfigure extends Activity {
 			btnAndroid = (Button) findViewById(R.id.btnAndroid);
 			btnAndroid.setOnClickListener(androidOnClickListener);
 
+			cbFb = ((CheckBox) findViewById(R.id.checkBox));
+			cbArt = ((CheckBox) findViewById(R.id.checkBoxArt));
+
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 			String textoPatron = prefs.getString("pattern", "");
 			String appSel = prefs.getString("appselected", "");
 			boolean facebook = prefs.getBoolean("facebook", false);
+			boolean albumArt = prefs.getBoolean("albumArt", false);
 
-			((CheckBox) findViewById(R.id.checkBox)).setChecked(facebook || installedApps.size() == 0);
-
-			if (textoPatron.trim().length() == 0) {// empinstalledApps.size() ==
-				// 0ty
-				textoPatron = getResources().getString(R.string.imlistening).replace("song", "<song>")
-						.replace("artist", "<artist>");
+			if (textoPatron.trim().length() == 0) {
+				textoPatron = getResources().getString(R.string.imlistening).replace("song", "<song>").replace("artist", "<artist>");
 			}
 
 			EditText text = (EditText) findViewById(R.id.pattern);
@@ -134,16 +134,30 @@ public class ButtonWidgetConfigure extends Activity {
 			spinnerApp.setClickable(installedApps.size() > 0);
 
 			if (installedApps.size() == 0) {
-				((CheckBox) findViewById(R.id.checkBox)).setClickable(false);
+				cbFb.setClickable(false);
+				cbFb.setChecked(true);
 				spinnerApp.setVisibility(View.GONE);
 			}
 
 			Intent intent = getIntent();
 			Bundle extras = intent.getExtras();
 			if (extras != null) {
-				mAppWidgetId = extras
-						.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+				mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
 			}
+
+			cbArt.setChecked(albumArt);
+			cbFb.setChecked(facebook);
+			cbArt.setClickable(facebook);
+
+			cbFb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					cbArt.setClickable(isChecked);
+					
+					if (cbArt.isChecked() && !isChecked)
+						cbArt.setChecked(false);
+				}
+			});
+
 		} else {
 			Toast me = Toast.makeText(getApplicationContext(), "PowerAMP is not installed.", Toast.LENGTH_SHORT * 2);
 			me.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
@@ -151,9 +165,7 @@ public class ButtonWidgetConfigure extends Activity {
 			finish();
 		}
 
-		getWindow().setSoftInputMode(
-				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-						| WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 	}
 
 	private Button.OnClickListener configOkButtonOnClickListener = new Button.OnClickListener() {
@@ -163,33 +175,31 @@ public class ButtonWidgetConfigure extends Activity {
 			EditText text = (EditText) findViewById(R.id.pattern);
 			String textoNuevo = text.getText().toString();
 
-			if (((selectedApp == null) || (selectedApp != null && selectedApp.trim().length() == 0))
-					&& installedApps.size() > 0) {
-				Toast me = Toast.makeText(getApplicationContext(), "No twitter client selected.",
-						Toast.LENGTH_SHORT * 2);
+			if (((selectedApp == null) || (selectedApp != null && selectedApp.trim().length() == 0)) && installedApps.size() > 0) {
+				Toast me = Toast.makeText(getApplicationContext(), "No twitter client selected.", Toast.LENGTH_SHORT * 2);
 				me.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
 				me.show();
 			} else {
 				if (!textoNuevo.contains("<song>") || !textoNuevo.contains("<artist>")) {
-					Toast me = Toast.makeText(getApplicationContext(), "<song> and <artist> tags are mandatory.",
-							Toast.LENGTH_SHORT * 2);
+					Toast me = Toast.makeText(getApplicationContext(), "<song> and <artist> tags are mandatory.", Toast.LENGTH_SHORT * 2);
 					me.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
 					me.show();
 				} else {
 					SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-					Editor textoPatron = prefs.edit();
+					Editor preferencias = prefs.edit();
 
-					textoPatron.remove("pattern");
-					textoPatron.putString("pattern", textoNuevo);
+					preferencias.remove("pattern");
+					preferencias.putString("pattern", textoNuevo);
 
-					textoPatron.remove("appselected");
-					textoPatron.putString("appselected", selectedApp);
+					preferencias.remove("appselected");
+					preferencias.putString("appselected", selectedApp);
 
-					textoPatron.remove("facebook");
-					CheckBox cb = (CheckBox) findViewById(R.id.checkBox);
-					textoPatron.putBoolean("facebook", cb.isChecked());
+					preferencias.remove("facebook");
+					preferencias.putBoolean("facebook", cbFb.isChecked());
 
-					textoPatron.commit();
+					preferencias.remove("albumArt");
+					preferencias.putBoolean("albumArt", cbArt.isChecked());
+					preferencias.commit();
 
 					Intent resultValue = new Intent();
 					resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
@@ -203,8 +213,7 @@ public class ButtonWidgetConfigure extends Activity {
 	private Button.OnClickListener configRestoreButton = new Button.OnClickListener() {
 
 		public void onClick(View arg0) {
-			String textoPatron = getResources().getString(R.string.imlistening).replace("song", "<song>")
-					.replace("artist", "<artist>");
+			String textoPatron = getResources().getString(R.string.imlistening).replace("song", "<song>").replace("artist", "<artist>");
 
 			EditText text = (EditText) findViewById(R.id.pattern);
 			text.setText(textoPatron);

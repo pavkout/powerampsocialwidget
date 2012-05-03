@@ -91,10 +91,10 @@ public class MainActivity extends Activity {
 					}
 					prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 					String textoPatron = prefs.getString("pattern", "");
-
+					
 					String mensaje = textoPatron.replace("<song>", mTitulo).replace("<artist>", mArtist)
 							.replace("<album>", mAlbum);
-					doFb(mensaje);
+					doFb(mensaje,prefs.getBoolean("albumArt", false));
 				}
 			} catch (Exception e) {
 				Log.e(TAG, "Ex: " + e.getMessage());
@@ -102,7 +102,7 @@ public class MainActivity extends Activity {
 		}
 	};
 
-	private void doFb(String mensaje) {
+	private void doFb(String mensaje, boolean albumArt) {
 
 		if (android.os.Build.VERSION.SDK_INT > 9) {
 			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -117,6 +117,10 @@ public class MainActivity extends Activity {
 			if (status.equals("CONNECTED")) {
 				Intent fbIntent = new Intent(getApplicationContext(), FacebookConnect.class);
 				fbIntent.putExtra("CancionActiva", mensaje);
+				fbIntent.putExtra("CancionActiva_Artist", mArtist);
+				fbIntent.putExtra("CancionActiva_Album", mAlbum);
+				fbIntent.putExtra("CancionActiva_AlbumArt", albumArt);
+				
 				startActivity(fbIntent);
 			} else {
 				Toast.makeText(getApplicationContext(), "No connection available", Toast.LENGTH_SHORT).show();
