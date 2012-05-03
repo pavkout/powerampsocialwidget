@@ -67,7 +67,6 @@ public class FacebookConnect extends Activity implements LoginListener {
 	}
 
 	public void loginSuccess(Facebook facebook) {
-
 		try {
 			GraphApi graphApi = new GraphApi(facebook);
 			graphApi.setStatus(cancion);
@@ -76,9 +75,7 @@ public class FacebookConnect extends Activity implements LoginListener {
 			fbManager.displayToast("Something went wrong.. Sorry");
 			// Log.e(Main.TAG, e.getMessage());
 		}
-
 		finish();
-
 	}
 
 }
