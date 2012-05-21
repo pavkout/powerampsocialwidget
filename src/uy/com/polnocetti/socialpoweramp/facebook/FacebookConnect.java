@@ -53,7 +53,6 @@ public class FacebookConnect extends Activity implements LoginListener {
 		if (fbManager.existsSavedFacebook()) {
 			fbManager.loadFacebook();
 		} else {
-
 			fbManager.login();
 		}
 	}
@@ -64,7 +63,6 @@ public class FacebookConnect extends Activity implements LoginListener {
 			fbManager.loginSuccess(data);
 		} catch (Exception e) {
 			fbManager.displayToast("Something went wrong.. Sorry");
-			// Log.e(Main.TAG, e.getMessage());
 		}
 	}
 
@@ -89,7 +87,6 @@ public class FacebookConnect extends Activity implements LoginListener {
 			fbManager.displayToast("Status posted!");
 		} catch (EasyFacebookError e) {
 			fbManager.displayToast("Something went wrong.. Sorry");
-			// Log.e(Main.TAG, e.getMessage());
 		}
 		finish();
 	}
