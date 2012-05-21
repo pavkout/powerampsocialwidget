@@ -34,14 +34,14 @@ public class LastFMAlbumArt implements AlbumArtManager {
 			Album lAlbum = Album.getInfo(artist, album, key);
 
 			if (lAlbum != null) {
-				//lAlbum.getUrl();
 				return lAlbum.getImageURL(ImageSize.EXTRALARGE);
-			} else
+			} else{
 				return "";
-			
+			}
 		} catch (Exception e) {
-			if (e != null)
+			if (e != null){
 				Log.e(ButtonWidget.TAG, e.getMessage());
+			}
 			return "";
 		}
 

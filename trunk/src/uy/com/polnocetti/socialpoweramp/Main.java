@@ -79,6 +79,7 @@ public class Main extends Activity {
 	}
 
 	private BroadcastReceiver mTrackReceiver = new BroadcastReceiver() {
+
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			try {
